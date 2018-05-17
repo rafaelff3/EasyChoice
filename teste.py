@@ -1,7 +1,15 @@
-lista = {}
-lista['quatro'] = 4
-print(lista.values())
-print(len(lista))
+
+
+def minharola(x):
+    y = "arroz"
+    t = 3*x
+    return t
+
+z = minharola(2)
+print(z)
+print(y)
+
+#print(len(lista))
 #for i in lista_carros:
 
     

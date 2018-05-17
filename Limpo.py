@@ -1,5 +1,5 @@
 # imports
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
 # Classes
@@ -34,15 +34,25 @@ def retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranc
                 pontos += int(lista_carros[marca][modelo][versao].custo_beneficio)*custo_beneficio
                 pontos += int(lista_carros[marca][modelo][versao].desvalorizacao)*desvalorizacao
                 
-                
-    ranking_final = []
-    while len(ranking) > 0:
-        for marca in lista_carros:
-            for modelo in carros[marca]:
-                for versao in carros[marca][modelo]:
-                    
-                        ranking_final.append()
-        
+    carro = []
+    ponto = []
+
+    for key, value in ranking.items():
+        carro.append(key)
+        ponto.append(value)
+
+    ranking_final_carro = []
+    ranking_final_ponto = []
+    
+    
+    while len(carro) > 0:
+        ranking_final_carro.append(carro[ponto.index(max(ponto))])
+        ranking_final_ponto.append(ponto[ponto.index(max(ponto))])
+        del carro[ponto.index(max(ponto))]
+        del ponto[ponto.index(max(ponto))]
+    
+    return ranking_final_carro, ranking_final_ponto
+    
         
         
 
@@ -51,8 +61,8 @@ def retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranc
 carros = {
   "VW": {
     "Fox": {
-      "1.0": 1,
-      "1.6": 1
+      "1.0": Carros(55000,"Hatchback",4,3,2,2,4,3,4,"Bem loco"),
+      "1.6": Carros(70000,"Hatchback",4,3,2,2,4,3,4,"Bem loco")
   },
 }}
 
@@ -61,24 +71,25 @@ carros = {
 def pagina_inicial():    
     mensagem_erro = ''
     if request.method == 'POST':
-        precomin = request.form['precomin']
-        precomax = request.form['precomax']
+        precomin = float(request.form['precomin'])
+        precomax = float(request.form['precomax'])
         categoria = request.form['categoria']
-        espaco_interno = request.form['espaco_interno']
-        consumo = request.form['consumo']
-        desempenho = request.form['desempenho']
-        conforto = request.form['conforto']
-        seguranca = request.form['seguranca']
-        custo_beneficio = request.form['custo_beneficio']
-        desvalorizacao = request.form['desvalorizacao']
+        espaco_interno = int(request.form['espaco_interno'])
+        consumo = int(request.form['consumo'])
+        desempenho = int(request.form['desempenho'])
+        conforto = int(request.form['conforto'])
+        seguranca = int(request.form['seguranca'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        desvalorizacao = int(request.form['desvalorizacao'])
         
-        lista_carros = []
-        for i in carros:
-            lista_carros.append(i)
+        lista_carros = {}
+        for key,value in carros.items():
+            
+            lista_carros[key] = value
         
         # Filtra por preco
         
-        for marca in lista_carros:
+        for marca in carros:
             for modelo in carros[marca]:
                 for versao in carros[marca][modelo]:
                     if carros[marca][modelo][versao].preco > precomax or carros[marca][modelo][versao].preco < precomin:
@@ -86,15 +97,22 @@ def pagina_inicial():
         
         # Filtra por categoria                
         
-        for marca in lista_carros:
-            for modelo in carros[marca]:
-                for versao in carros[marca][modelo]:                    
-                    if carros[marca][modelo][versao].categoria != categoria and categoria != "0":
-                        del lista_carros[marca][modelo][versao]
+        #for marca in carros:
+         #   for modelo in carros[marca]:
+          #      for versao in carros[marca][modelo]:                    
+           #         if carros[marca][modelo][versao].categoria != categoria and categoria != "0":
+            #            del lista_carros[marca][modelo][versao]
         
+        ranking, pontos = retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranca,custo_beneficio,desvalorizacao)
         
+        redirect(url_for('dpc'))
         
-    return render_template('Limpo.html', carros=carros, mensagem_erro=mensagem_erro)    
+    return render_template('Limpo.html', carros=carros, mensagem_erro=mensagem_erro) 
+
+@app.route("/dpc", methods=['POST','GET'])
+def dpc():
+    return ranking[0]
+
 
 
 # Adiciona carro novo
