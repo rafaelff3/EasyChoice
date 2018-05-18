@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+        <link rel="stylesheet" href="/static/bootstrap-reboot.min.css" type="text/css">
+        <link rel="stylesheet" href="/static/tarefas.css" type="text/css">
+        <title>Dpc - Seu Próximo Carro</title>
+    </head>
+    <body>
+        <div>
+            <r>
+                {%if resul%}
+                    <h2> {{ranking[0]}} </h2>
+                {%endif%}
+                {%if not resul%}
+                    <h2> Nenhum carro dessa categoria nessa faixa de preço </h2>
+                {%endif%}
+            </r>
+        </div>
+    </body>
+</html>
+                

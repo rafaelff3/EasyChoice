@@ -1,13 +1,11 @@
 
 
-def minharola(x):
-    y = "arroz"
-    t = 3*x
-    return t
+lista = []
 
-z = minharola(2)
-print(z)
-print(y)
+for i in lista:
+    print(i)
+    break
+
 
 #print(len(lista))
 #for i in lista_carros:

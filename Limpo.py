@@ -1,5 +1,7 @@
 # imports
 from flask import Flask, render_template, request, redirect, url_for
+from ast import literal_eval
+
 app = Flask(__name__)
 
 # Classes
@@ -51,6 +53,7 @@ def retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranc
         del carro[ponto.index(max(ponto))]
         del ponto[ponto.index(max(ponto))]
     
+    
     return ranking_final_carro, ranking_final_ponto
     
         
@@ -61,14 +64,28 @@ def retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranc
 carros = {
   "VW": {
     "Fox": {
-      "1.0": Carros(55000,"Hatchback",4,3,2,2,4,3,4,"Bem loco"),
-      "1.6": Carros(70000,"Hatchback",4,3,2,2,4,3,4,"Bem loco")
+      "1.0": Carros(55000,"hatchback",4,3,2,2,4,3,4,"Bem loco"),
+      "1.6": Carros(70000,"hatchback",4,3,2,2,4,3,4,"Bem loco")
   },
 }}
 
 # Função principal
-@app.route("/", methods=['POST','GET'])
-def pagina_inicial():    
+@app.route("/", methods=['POST','GET'])    
+def pagina_inicial():
+    if request.method == 'POST':
+        
+        onde = request.form['onde']
+        
+        if onde == 'busca':
+            return redirect("/ache_seu_carro", code=302)
+        
+        elif onde == 'novo':
+            return redirect("/AE", code=302)
+        
+    return render_template('pagprin.html')
+
+@app.route("/ache_seu_carro", methods=['POST','GET'])
+def ache_seu_carro():    
     mensagem_erro = ''
     if request.method == 'POST':
         precomin = float(request.form['precomin'])
@@ -97,22 +114,36 @@ def pagina_inicial():
         
         # Filtra por categoria                
         
-        #for marca in carros:
-         #   for modelo in carros[marca]:
-          #      for versao in carros[marca][modelo]:                    
-           #         if carros[marca][modelo][versao].categoria != categoria and categoria != "0":
-            #            del lista_carros[marca][modelo][versao]
+        for marca in carros:
+            for modelo in carros[marca]:
+                for versao in carros[marca][modelo]:                    
+                    if carros[marca][modelo][versao].categoria != categoria and categoria != "0":
+                        del lista_carros[marca][modelo][versao]
+        
+        #### erro ao filtrar, ele diz que a lista esta mudando de tamanho
         
         ranking, pontos = retornarank(lista_carros,espaco_interno,consumo,desempenho,conforto,seguranca,custo_beneficio,desvalorizacao)
         
-        redirect(url_for('dpc'))
+        with open('ranking.py','w') as dados:
+            dados.write(str(ranking))
         
-    return render_template('Limpo.html', carros=carros, mensagem_erro=mensagem_erro) 
+        return redirect("/ache_seu_carro/dpc", code=302)
+        
+    return render_template('Limpo.html', carros=carros, mensagem_erro=mensagem_erro)
 
-@app.route("/dpc", methods=['POST','GET'])
+@app.route("/ache_seu_carro/dpc", methods=['POST','GET'])
 def dpc():
-    return ranking[0]
-
+    mensagem_erro = ''
+    if request.method == 'POST':
+        with open('ranking.py','r') as dados:
+            ranking = literal_eval(dados.read())
+        
+        if len(ranking) == 0:
+            resul = False
+                
+        elif len(ranking) > 0:
+            resul = True
+    return render_template('Limpodpc.html', carros=carros, mensagem_erro=mensagem_erro)
 
 
 # Adiciona carro novo
@@ -120,4 +151,4 @@ def dpc():
 def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, economia, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao):
     carros["carros"][modelo][versao] = Carros(preco, categoria, espaco_interno, economia, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao)
 
-app.run('0.0.0.0', 5001, True)
+app.run('0.0.0.0', 5002, True)
