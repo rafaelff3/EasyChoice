@@ -66,8 +66,14 @@ carros = {
     "Fox": {
       "1.0": Carros(55000,"hatchback",4,3,2,2,4,3,4,"Bem loco"),
       "1.6": Carros(70000,"hatchback",4,3,2,2,4,3,4,"Bem loco")
+    }
   },
-}}
+  "Honda": {
+    "Civic": {
+      "SI" : Carros(160000,"cupe",3,3,5,4,4,2,3,"Carin q só")
+    }
+  },
+}
 
 # Função principal
 @app.route("/", methods=['POST','GET'])    
@@ -80,7 +86,7 @@ def pagina_inicial():
             return redirect("/ache_seu_carro", code=302)
         
         elif onde == 'novo':
-            return redirect("/AE", code=302)
+            return redirect("/nova_opiniao", code=302)
         
     return render_template('pagprin.html')
 
@@ -134,21 +140,61 @@ def ache_seu_carro():
 @app.route("/ache_seu_carro/dpc", methods=['POST','GET'])
 def dpc():
     mensagem_erro = ''
-    if request.method == 'POST':
-        with open('ranking.py','r') as dados:
-            ranking = literal_eval(dados.read())
+    resul = ''
+    
+    with open('ranking.py','r') as dados:
+        ranking = literal_eval(dados.read())
         
-        if len(ranking) == 0:
-            resul = False
+    if len(ranking) == 0:
+        mensagem_erro = 'Nenhum carro dessa categoria nessa faixa de preço'
                 
-        elif len(ranking) > 0:
-            resul = True
-    return render_template('Limpodpc.html', carros=carros, mensagem_erro=mensagem_erro)
+    elif len(ranking) > 0:
+        resul = 'O carro ideal para você: {0}'.format(ranking[0])
+            
+    return render_template('Limpodpc.html', carros=carros, mensagem_erro=mensagem_erro, resul=resul)
 
+@app.route("/nova_opiniao", methods=(['POST','GET']))
+def nova_opiniao():
+    if request.method == 'POST':
+        #c = request.method["vai"]
+        
+        c = "false"
+        
+        if c == "false":
+            return 'aaaaaaa' 
+            return redirect("/add_carro", code=302)
+        
+        
+        
 
+           
+    return render_template('nova_opiniao.html', carros=carros)
+
+@app.route("/add_carro", methods=(['POST','GET']))
+def novo_carro():
+    return 'ok'
 # Adiciona carro novo
 
 def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, economia, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao):
     carros["carros"][modelo][versao] = Carros(preco, categoria, espaco_interno, economia, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao)
 
-app.run('0.0.0.0', 5002, True)
+app.run('0.0.0.0', 5004, True)
+
+
+
+
+'''
+        marca = request.form['marca']
+        modelo = request.form['modelo']
+        versao = request.form['versao']
+        preco = float(request.form['preco'])
+        categoria = request.form['categoria']
+        espaco_interno = int(request.form['espaco_interno'])
+        consumo = int(request.form['consumo'])
+        desempenho = int(request.form['desempenho'])
+        conforto = int(request.form['conforto'])
+        seguranca = int(request.form['seguranca'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        desvalorizacao = int(request.form['desvalorizacao'])
+        comentario = request.form['comentario']
+'''

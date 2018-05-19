@@ -1,12 +1,11 @@
+def soma(a,b):
+    return a+b
 
+def a():
+    x = soma(1,2)
+    return x
 
-lista = []
-
-for i in lista:
-    print(i)
-    break
-
-
+print(a())
 #print(len(lista))
 #for i in lista_carros:
 

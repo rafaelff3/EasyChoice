@@ -7,30 +7,22 @@
     </head>
     <body>
         <div>
-            <h1>Seu Próximo Carro</h1>
+            <h1>Adicione o seu carro</h1>
 
-            <h2>Ache seu carro</h2>
-            <form action="/ache_seu_carro" method="POST">
-                <h1> Filtros <h1/>
+         
+            
+            
+            
+            <form action="/" method="POST">
+                Marca:
+                <input type="text" name="marca" placeholder="Digite a marca:">
+                       
+                Modelo:
+               <input type="text" name="modelo" placeholder="Digite o modelo:?">
                 
-                <h3> Preço: <h3/>
-                <input type="text" name="precomin" placeholder="Preço mínimo">
-                <input type="text" name="precomax" placeholder="Preço máximo">
-                <p class="mensagem-erro">{{ mensagem_erro }}</p>
+                Versão:
+               <input type="text" name="marca" placeholder="Digite a versâo:">
                 
-                <h3> Categoria: <h3/>
-                <select name="categoria">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="suv">SUV</option>
-                    <option value="hatchback">Hatchback</option>
-                    <option value="perua">Perua</option>
-                    <option value="picape">Picape</option>
-                    <option value="cupe">Cupê</option>
-                    <option value="conversivel">Conversível</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="minivan">Minivan</option>
-                </select>
-                <h1> Prioridades <h1/>
                 <h3> Espaço interno: <h3/>
                 <select name="espaco_interno">
                     <option value="0" selected>Tanto faz</option>
@@ -94,11 +86,12 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                
-                <input type="submit" value="Pronto!">
+                <textarea name="comentario" placeholder="Comente sobre sua experiência com o carro passando pelos pontos negativos e positivos."></textarea>
+                <input type="submit" value="&#10003;"></form>
+    
             </form>
-            
-            
+                
+                   
             
         </div>
     </body>
