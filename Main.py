@@ -1,9 +1,4 @@
-# =========================== SUMÁRIO ===================================
-
-
-
-
-
+# =========================== SUMÁRIO =========================================
 
 
 
@@ -12,7 +7,7 @@
 
 from flask import Flask, render_template, request, redirect
 from ast import literal_eval
-
+import numpy as np
 
 # =============================================================================
 
@@ -35,6 +30,7 @@ class Carros(): #objeto
         self.comentario = [comentario]
     pass
 
+PRECO = np.arange(0,300000,2500)
 
 # =============================================================================
 
@@ -50,13 +46,13 @@ def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranc
             for versao in lista_carros[marca][modelo]:
                 pontos = 0
                 
-                pontos += int(versao.espaco_interno)*Espaco_interno
-                pontos += int(versao.consumo)*Consumo
-                pontos += int(versao.desempenho)*Desempenho
-                pontos += int(versao.conforto)*Conforto
-                pontos += int(versao.seguranca)*Seguranca
-                pontos += int(versao.custo_beneficio)*Custo_beneficio
-                pontos += int(versao.desvalorizacao)*Desvalorizacao
+                pontos += int(lista_carros[marca][modelo][versao].espaco_interno)*Espaco_interno
+                pontos += int(lista_carros[marca][modelo][versao].consumo)*Consumo
+                pontos += int(lista_carros[marca][modelo][versao].desempenho)*Desempenho
+                pontos += int(lista_carros[marca][modelo][versao].conforto)*Conforto
+                pontos += int(lista_carros[marca][modelo][versao].seguranca)*Seguranca
+                pontos += int(lista_carros[marca][modelo][versao].custo_beneficio)*Custo_beneficio
+                pontos += int(lista_carros[marca][modelo][versao].desvalorizacao)*Desvalorizacao
                 
                 ranking['{0} {1} {2}'.format(marca,modelo,versao)] = pontos
                 
@@ -85,9 +81,12 @@ def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranc
 # FUNÇÃO QUE ADICIONA UM CARRO AO DICIONÁRIO
 
 def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario):
-    carros["carros"][modelo][versao] = Carros(preco, categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
-
-
+    #carros[marca][modelo][versao] = Carros(preco, categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
+    Modelo = {}
+    Modelo[versao] = Carros(preco, categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
+    Marca = {}
+    Marca[modelo] = Modelo
+    carros[marca] = Marca
 # =============================================================================
 
 
@@ -116,27 +115,21 @@ app = Flask(__name__)
 
 
 # PÁGINA PRINCIPAL
+@app.route("/", methods=['POST','GET'])
+def pagina_principal():
+    return render_template('pagina_principal.html')
 
-@app.route("/", methods=['POST','GET'])    
-def pagina_inicial():
-    if request.method == 'POST':
-        
-        onde = request.form['onde']
-        
-        if onde == 'busca':
-            return redirect("/ache_seu_carro", code=302)
-        
-        elif onde == 'novo':
-            return redirect("/nova_opiniao", code=302)
-        
-    return render_template('pagprin.html')
+# PÁGINA CARRO
+
+@app.route("/carros", methods=['POST','GET'])    
+def pag_carros():        
+    return render_template('carros.html')
 
 
 # ACHA CARRO
 
-@app.route("/ache_seu_carro", methods=['POST','GET'])
-def ache_seu_carro():    
-    mensagem_erro = ''
+@app.route("/carros/ache_seu_carro", methods=['POST','GET'])
+def ache_seu_carro():
     if request.method == 'POST':
         Precomin = float(request.form['precomin'])
         Precomax = float(request.form['precomax'])
@@ -149,39 +142,38 @@ def ache_seu_carro():
         Custo_beneficio = int(request.form['custo_beneficio'])
         Desvalorizacao = int(request.form['desvalorizacao'])
         
+        # Filtra por preco e categoria
+        
         lista_carros = {}
-        for key,value in carros.items():
-            
-            lista_carros[key] = value
-        
-        # Filtra por preco
-        
         for marca in carros:
             for modelo in carros[marca]:
                 for versao in carros[marca][modelo]:
-                    if carros[marca][modelo][versao].preco > Precomax or carros[marca][modelo][versao].preco < Precomin:
-                        del lista_carros[marca][modelo][versao]
-        
-        # Filtra por categoria                
-        
-        for marca in carros:
-            for modelo in carros[marca]:
-                for versao in carros[marca][modelo]:                    
-                    if carros[marca][modelo][versao].categoria != Categoria and Categoria != "0":
-                        del lista_carros[marca][modelo][versao]
-        
+                    if carros[marca][modelo][versao].preco <= Precomax and carros[marca][modelo][versao].preco >= Precomin:
+                        if Categoria != "0":
+                            if Categoria == carros[marca][modelo][versao].categoria:
+                                Modelo = {}
+                                Modelo[versao] = carros[marca][modelo][versao]
+                                Marca = {}
+                                Marca[modelo] = Modelo
+                                lista_carros[marca] = Marca
+                        else:
+                            Modelo = {}
+                            Modelo[versao] = carros[marca][modelo][versao]
+                            Marca = {}
+                            Marca[modelo] = Modelo
+                            lista_carros[marca] = Marca
         #### erro ao filtrar, ele diz que a lista esta mudando de tamanho
         
-        ranking, pontos = retornarank(carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao)
+        ranking, pontos = retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao)
         
-        return redirect("/ache_seu_carro/dpc", code=302)
+        return redirect("/carros/ache_seu_carro/dpc", code=302)
         
-    return render_template('Limpo.html', carros=carros, mensagem_erro=mensagem_erro)
+    return render_template('Limpo.html', carros=carros, PRECO=PRECO)
 
 
 # RETORNA O MELHOR CARRO
 
-@app.route("/ache_seu_carro/dpc", methods=['POST','GET'])
+@app.route("/carros/ache_seu_carro/dpc", methods=['POST','GET'])
 def dpc():
     mensagem_erro = ''
     resul = ''
@@ -200,7 +192,7 @@ def dpc():
 
 # ADICIONA NOVA OPINIÃO
 
-@app.route("/nova_opiniao", methods=(['POST','GET']))
+@app.route("/carros/nova_opiniao", methods=(['POST','GET']))
 def nova_opiniao():
     if request.method == 'POST':
       
@@ -218,20 +210,17 @@ def nova_opiniao():
         comentario = request.form['comentario']
         
         carros[marca][modelo][versao] = Carros((carros[marca][modelo][versao].preco + preco)/2,carros[marca][modelo][versao].categoria,(carros[marca][modelo][versao].espaco_interno + espaco_interno)/2,(carros[marca][modelo][versao].consumo + consumo)/2,(carros[marca][modelo][versao].desempenho + desempenho)/2,(carros[marca][modelo][versao].conforto + conforto)/2,(carros[marca][modelo][versao].seguranca + seguranca)/2,(carros[marca][modelo][versao].custo_beneficio + custo_beneficio)/2,(carros[marca][modelo][versao].desvalorizacao + desvalorizacao)/2,carros[marca][modelo][versao].comentario.append(comentario))
-        return 'aaaa'
-        #return redirect("/agradecimento", code=302)
+        
+        return redirect("/carros/agradecimento", code=302)
         
     return render_template('nova_opiniao.html', carros=carros)
 
 
 # ADICIONA UM NOVO CARRO
 
-@app.route("/add_carro", methods=(['POST','GET']))
+@app.route("/carros/add_carro", methods=['GET', 'POST'])
 def novo_carro():
-    mensagem_erro = ''
-    
-    if request.method == 'POST':
-        
+    if request.method == 'POST':    
         marca = request.form['marca']
         modelo = request.form['modelo']
         versao = request.form['versao']
@@ -245,26 +234,23 @@ def novo_carro():
         custo_beneficio = int(request.form['custo_beneficio'])
         desvalorizacao = int(request.form['desvalorizacao'])
         comentario = request.form['comentario']        
-        
+
         addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
         
-        return redirect("/agradecimento", code=302)
+        return render_template('agradece.html')
     
-    return render_template('novo_carro.html', carros=carros, mensagem_erro=mensagem_erro)
+    return render_template('novo_carro.html', carros=carros)
 
 
 # AGRADECE
 
-@app.route("/agredecimento", methods=(['POST','GET']))
+@app.route("/carros/agradecimento", methods=(['POST','GET']))
 def agradece():
-    #mensagem_erro = ''
-    return 'aeae' #render_template('agradece.html', carros=carros, mensagem_erro=mensagem_erro)
+    return render_template('agradece.html')
     
 
 # RODA O PROGRAMA
-
-app.run('0.0.0.0', 5005, True)
-
+app.run('0.0.0.0', 5007, True)
 
 # =============================================================================
 

@@ -1,10 +1,38 @@
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=0.6">
-        <link rel="stylesheet" href="/static/css/bootstrap-reboot.min.css" type="text/css">
-        <link rel="stylesheet" href="/static/css/tarefas.css" type="text/css">
-        <title>Página Principal - Seu Próximo Carro</title>
-    </head>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+ 
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>EasyChoice</title>
+<link rel="icon" href="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=163840f0fecf24bf&attid=0.1&disp=safe&realattid=f_jhgm2xj90&zw">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ 
+<style>
+.jumbotron{
+    background-color:#000;
+    color:#1ad1ff;
+}
+/* Adds borders for tabs */
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.nav-tabs {
+    margin-bottom: 0;
+}
+</style>
+
+</head>
+
     <body>
         <div>
             <h1>Opine sobre seu carro</h1>
@@ -13,13 +41,16 @@
             
             
             
-            <form action="/" method="POST">
+            <form action="/carros/nova_opiniao" method="POST">
                 Marca:
                 <select name="marca" placeholder="marca">
                     {% for mar in carros %}
                        <option value="{{mar}}">{{mar}}</option>
                     {%endfor%}
                 </select>
+                <input type="submit" value="&#10003;"></form>
+            </form>
+            <form action="/carros/nova_opiniao" method="POST">
                 Modelo:
                 <select name="modelo" placeholder="modelo">
                     {% for mar in carros %}
@@ -38,7 +69,7 @@
                         {%endfor%}
                     {%endfor%}                
                 </select>
-                
+            
                 <h3> Espaço interno: <h3/>
                 <select name="espaco_interno">
                     <option value="0" selected>Tanto faz</option>
@@ -103,14 +134,42 @@
                     <option value="5">5</option>
                 </select>
                 <textarea name="comentario" placeholder="Comente sobre sua experiência com o carro passando pelos pontos negativos e positivos."></textarea>
+                <input type="hidden" name="asd" value="True">
                 <input type="submit" value="&#10003;"></form>
     
             </form>
-                
+        </div>
+        <div>
             <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link" href="/add_carro">Seu carro não está na lista? Clique aqui</a>
+                <a class="nav-link" href="/carros/add_carro">Seu carro não está na lista? Clique aqui</a>
             </nav>          
             
         </div>
-    </body>
+<table width=1254 align=center>
+
+<tr>
+<td bgcolor="#1ad1ff" colspan="80" height="25" width=100%>
+<font style="font-size: 13px; font-family: arial">
+&nbsp;&nbsp;
+<a href="/" title="Página principal do EasyChoice"><font color="black">Página Principal</a>
+&nbsp;|&nbsp;
+<a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
+&nbsp;|&nbsp;
+<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+&nbsp;|&nbsp;
+<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+&nbsp;|&nbsp;
+<a href="/fale_conosco" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
+&nbsp;|&nbsp;
+<a href="/fale_conosco" title="Avise-nos sobre problemas com o site EasyChoice" rel="nofollow"><font color="black">Comunicar erro</a>
+</td>
+</tr>
+
+</table>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+
 </html>

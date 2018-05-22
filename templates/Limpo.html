@@ -1,22 +1,69 @@
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=0.6">
-        <link rel="stylesheet" href="/static/css/bootstrap-reboot.min.css" type="text/css">
-        <link rel="stylesheet" href="/static/css/tarefas.css" type="text/css">
-        <title>Página Principal - Seu Próximo Carro</title>
-    </head>
-    <body>
-        <div>
-            <h1>Seu Próximo Carro</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+ 
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>EasyChoice</title>
+<link rel="icon" href="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=163840f0fecf24bf&attid=0.1&disp=safe&realattid=f_jhgm2xj90&zw">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ 
+<style>
+.jumbotron{
+    background-color:#000;
+    color:#1ad1ff;
+}
+/* Adds borders for tabs */
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.nav-tabs {
+    margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+<header>
 
-            <h2>Ache seu carro</h2>
-            <form action="/ache_seu_carro" method="POST">
+<div class="container">
+<div class="page-header">
+
+<p>
+
+<h1 class="left"><a href="/"><img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" class="img-responsive img-thumbnail img-rounded" style="width:30%" alt="Responsive Image"></span></a></h1>
+</p>
+</div>
+</div>
+
+</header>
+
+        <div class="container jumbotron text-center">
+            <h1>Ache seu carro</h1>
+        </div>
+        <div class="container jumbotron text-center">
+            <form action="/carros/ache_seu_carro" method="POST">
                 <h1> Filtros <h1/>
                 
                 <h3> Preço: <h3/>
-                <input type="text" name="precomin" placeholder="Preço mínimo">
-                <input type="text" name="precomax" placeholder="Preço máximo">
-                <p class="mensagem-erro">{{ mensagem_erro }}</p>
+                <select name="precomin">
+                    <option value="0" selected>Preço mínimo</option>
+                    {%for p in PRECO%}
+                        <option value="{{p}}">{{p}}</option>
+                    {%endfor%}
+                </select>
+                <select name="precomax">
+                    <option value="300000" selected>Preço máximo</option>
+                    {%for p in PRECO%}
+                        <option value="{{p}}">{{p}}</option>
+                    {%endfor%}
+                </select>
                 
                 <h3> Categoria: <h3/>
                 <select name="categoria">
@@ -33,73 +80,98 @@
                 <h1> Prioridades <h1/>
                 <h3> Espaço interno: <h3/>
                 <select name="espaco_interno">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Consumo: <h3/>
                 <select name="consumo">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Desempenho: <h3/>
                 <select name="desempenho">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Conforto: <h3/>
                 <select name="conforto">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Segurança: <h3/>
                 <select name="seguranca">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Custo X benefício: <h3/>
                 <select name="custo_beneficio">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
                 <h3> Desvalorização: <h3/>
                 <select name="desvalorizacao">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" selected>Tanto faz</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">4</option>
+                    <option value="6">5</option>
                 </select>
-                
+            </div>
+            <div class="container jumbotron text-center">    
                 <input type="submit" value="Pronto!">
-            </form>
-            
-            
-            
+            </form>            
         </div>
-    </body>
+<table width=1254 align=center>
+
+<tr>
+<td bgcolor="#1ad1ff" colspan="80" height="25" width=100%>
+<font style="font-size: 13px; font-family: arial">
+&nbsp;&nbsp;
+<a href="/" title="Página principal do EasyChoice"><font color="black">Página Principal</a>
+&nbsp;|&nbsp;
+<a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
+&nbsp;|&nbsp;
+<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+&nbsp;|&nbsp;
+<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+&nbsp;|&nbsp;
+<a href="/fale_conosco" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
+&nbsp;|&nbsp;
+
+<a href="/fale_conosco" title="Avise-nos sobre problemas com o site EasyChoice" rel="nofollow"><font color="black">Comunicar erro</a>
+</td>
+</tr>
+
+</table>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+
 </html>
