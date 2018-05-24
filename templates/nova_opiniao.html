@@ -1,5 +1,3 @@
-
-</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,13 +9,13 @@
 <!-- Set the page to the width of the device and set the zoon level -->
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
-<link rel="icon" href="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=163840f0fecf24bf&attid=0.1&disp=safe&realattid=f_jhgm2xj90&zw">
+<link rel="icon" href="https://thumbs.dreamstime.com/b/%C3%ADcone-azul-da-cara-do-smiley-com-ponto-de-interroga%C3%A7%C3%A3o-85804001.jpg">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  
 <style>
 .jumbotron{
-    background-color:#000;
-    color:#1ad1ff;
+    background-color:#f0f0f5;
+    color:#000;
 }
 /* Adds borders for tabs */
 .tab-content {
@@ -30,125 +28,145 @@
     margin-bottom: 0;
 }
 </style>
-
 </head>
 
-    <body>
-        <div>
-            <h1>Opine sobre seu carro</h1>
+<body>
 
-            <h2>Qual é o seu carro?</h2>
-            
-            
-            
-            <form action="/carros/nova_opiniao" method="POST">
+<header>
+
+<div class="container">
+<div class="page-header">
+
+<p>
+<h1>
+<a href="/">
+<img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" 
+ style="width:30%" alt="Responsive Image">
+ </a><div class="text-right"> VEÍCULOS </div></h1>
+</p>
+</div>
+</div>
+
+</header>
+
+<main>
+    <div class="container jumbotron text-center">
+        <form action="/carros/nova_opiniao" method="POST">
+            {%if not c%}
+                <h1>Qual é o seu carro?</h1>  
                 Marca:
-                <select name="marca" placeholder="marca">
+                <select name="marca" placeholder="marca" class="btn">
+                    <option value="0">Fabricante</option>
                     {% for mar in carros %}
                        <option value="{{mar}}">{{mar}}</option>
                     {%endfor%}
                 </select>
-                <input type="submit" value="&#10003;"></form>
-            </form>
-            <form action="/carros/nova_opiniao" method="POST">
+                
+                <input type="hidden" name="feito" value="True">
                 Modelo:
-                <select name="modelo" placeholder="modelo">
-                    {% for mar in carros %}
-                        {% for mod in carros[mar] %}
-                            <option value="{{mod}}">{{mod}}</option>
-                        {%endfor%}
+                <select name="modelo" placeholder="modelo" class="btn">
+                    <option value="0">Modelo</option>
+                    {% for modelo in carros[request.form['marca']] %}
+                        <option value="{{modelo}}">{{modelo}}</option>  
                     {%endfor%}
-                </select>
+                </select>   
                 Versão:
-                <select name="versao" placeholder="versao">
-                    {% for mar in carros %}
-                        {% for mod in carros[mar] %}
-                            {% for ver in carros[mar][mod] %}
-                                <option value="{{ver}}">{{ver}}</option>
-                            {%endfor%}    
-                        {%endfor%}
-                    {%endfor%}                
+                <select name="versao" placeholder="versao" class="btn">
+                    <option value="0">Versão</option>
+                    {% for modelo in carros[request.form['marca']] %}
+                        {% for versao in carros[request.form['marca']][request.form['modelo']] %}
+                            <option value="{{versao}}">{{versao}}</option>
+                        {%endfor%}  
+                    {%endfor%}               
                 </select>
-            
-                <h3> Espaço interno: <h3/>
-                <select name="espaco_interno">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Consumo: <h3/>
-                <select name="consumo">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Desempenho: <h3/>
-                <select name="desempenho">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Conforto: <h3/>
-                <select name="conforto">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Segurança: <h3/>
-                <select name="seguranca">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Custo X benefício: <h3/>
-                <select name="custo_beneficio">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <h3> Desvalorização: <h3/>
-                <select name="desvalorizacao">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <textarea name="comentario" placeholder="Comente sobre sua experiência com o carro passando pelos pontos negativos e positivos."></textarea>
-                <input type="hidden" name="asd" value="True">
-                <input type="submit" value="&#10003;"></form>
+                <h1> </h1>
+                <p class="mensagem-erro">{{ mensagem_erro }}</p>
+            {%endif%}
+            {%if c%}
+                <h1> O que você acha do seu carro? <h1/>
+                <h4> Avalie seu carro em uma escala de 0 (Péssimo) a 5 (Irado brother!) </h4>
+                    <input type="text" class="btn" name="preco" placeholder="Quanto você pagou no carro?">
+                    <select name="espaco_interno" class="btn">
+                        <option value="1" selected>Espaço interno</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+                    <select name="consumo" class="btn">
+                        <option value="1" selected>Consumo</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+                    <select name="desempenho" class="btn">
+                        <option value="1" selected>Desempenho</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+                    <select name="conforto" class="btn">
+                        <option value="1" selected>Conforto</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
     
+                    <select name="seguranca" class="btn">
+                        <option value="1" selected> Segurança</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+    
+                    <select name="custo_beneficio" class="btn">
+                        <option value="1" selected>Custo X benefício</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+                    <select name="desvalorizacao" class="btn">
+                        <option value="1" selected>Baixa desvalorização</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                    </select>
+                    <textarea name="comentario" class="btn" placeholder="Comente sobre seu carro"></textarea>
+                    <h1> </h1>
+            {%endif%}
+            <input type="submit" value="Pronto &#10003;"  class="btn btn-primary">
             </form>
-        </div>
-        <div>
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link" href="/carros/add_carro">Seu carro não está na lista? Clique aqui</a>
-            </nav>          
             
-        </div>
+            <div>
+                <nav class="nav nav-masthead justify-content-center">
+                <h1> </h1>
+                    <a class="nav-link" href="/carros/add_carro">Seu carro não está na lista? Clique aqui</a>
+                </nav>          
+        
+            </div>
+
+    </div>
+</main>
+
+<footer>
+
 <table width=1254 align=center>
 
 <tr>
-<td bgcolor="#1ad1ff" colspan="80" height="25" width=100%>
+<td bgcolor="#f0f0f5" colspan="80" height="25" width=100%>
 <font style="font-size: 13px; font-family: arial">
 &nbsp;&nbsp;
 <a href="/" title="Página principal do EasyChoice"><font color="black">Página Principal</a>
@@ -166,6 +184,7 @@
 </tr>
 
 </table>
+</footer>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

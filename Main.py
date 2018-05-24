@@ -168,7 +168,7 @@ def ache_seu_carro():
         
         return redirect("/carros/ache_seu_carro/dpc", code=302)
         
-    return render_template('Limpo.html', carros=carros, PRECO=PRECO)
+    return render_template('ache_seu_carro.html', carros=carros, PRECO=PRECO)
 
 
 # RETORNA O MELHOR CARRO
@@ -187,33 +187,51 @@ def dpc():
     elif len(ranking) > 0:
         resul = 'O carro ideal para você: {0}'.format(ranking[0])
         
-    return render_template('Limpodpc.html', carros=carros, mensagem_erro=mensagem_erro, resul=resul)
+    return render_template('ache_seu_carrodpc.html', carros=carros, mensagem_erro=mensagem_erro, resul=resul)
 
 
 # ADICIONA NOVA OPINIÃO
 
 @app.route("/carros/nova_opiniao", methods=(['POST','GET']))
 def nova_opiniao():
+    c = False
+    Mar = []
+    Mod = []
+    Ver = []
+    mensagem_erro = ''
     if request.method == 'POST':
-      
         marca = request.form['marca']
-        modelo = request.form['modelo']
-        versao = request.form['versao']
-        preco = float(request.form['preco'])
-        espaco_interno = int(request.form['espaco_interno'])
-        consumo = int(request.form['consumo'])
-        desempenho = int(request.form['desempenho'])
-        conforto = int(request.form['conforto'])
-        seguranca = int(request.form['seguranca'])
-        custo_beneficio = int(request.form['custo_beneficio'])
-        desvalorizacao = int(request.form['desvalorizacao'])
-        comentario = request.form['comentario']
-        
-        carros[marca][modelo][versao] = Carros((carros[marca][modelo][versao].preco + preco)/2,carros[marca][modelo][versao].categoria,(carros[marca][modelo][versao].espaco_interno + espaco_interno)/2,(carros[marca][modelo][versao].consumo + consumo)/2,(carros[marca][modelo][versao].desempenho + desempenho)/2,(carros[marca][modelo][versao].conforto + conforto)/2,(carros[marca][modelo][versao].seguranca + seguranca)/2,(carros[marca][modelo][versao].custo_beneficio + custo_beneficio)/2,(carros[marca][modelo][versao].desvalorizacao + desvalorizacao)/2,carros[marca][modelo][versao].comentario.append(comentario))
-        
-        return redirect("/carros/agradecimento", code=302)
-        
-    return render_template('nova_opiniao.html', carros=carros)
+        if marca != '0':
+            modelo = request.form['modelo']
+            if modelo !='0':
+                versao = request.form['versao']
+                if versao !='0':
+                    if marca!='0' and modelo!='0' and versao!='0':
+                        Mar.append(marca)
+                        Mod.append(modelo)
+                        Ver.append(versao)
+                        c = True
+                        preco = float(request.form['preco'])
+                        espaco_interno = int(request.form['espaco_interno'])
+                        consumo = int(request.form['consumo'])
+                        desempenho = int(request.form['desempenho'])
+                        conforto = int(request.form['conforto'])
+                        seguranca = int(request.form['seguranca'])
+                        custo_beneficio = int(request.form['custo_beneficio'])
+                        desvalorizacao = int(request.form['desvalorizacao'])
+                        comentario = request.form['comentario']
+                        
+                        carros[marca][modelo][versao] = Carros((carros[marca][modelo][versao].preco + preco)/2,carros[marca][modelo][versao].categoria,(carros[marca][modelo][versao].espaco_interno + espaco_interno)/2,(carros[marca][modelo][versao].consumo + consumo)/2,(carros[marca][modelo][versao].desempenho + desempenho)/2,(carros[marca][modelo][versao].conforto + conforto)/2,(carros[marca][modelo][versao].seguranca + seguranca)/2,(carros[marca][modelo][versao].custo_beneficio + custo_beneficio)/2,(carros[marca][modelo][versao].desvalorizacao + desvalorizacao)/2,carros[marca][modelo][versao].comentario.append(comentario))
+                        #return redirect("/carros/agradecimento", code=302)
+                    else:
+                        mensagem_erro = 'Preencha todos os campos'
+                else:
+                    mensagem_erro = 'Preencha todos os campos'
+            else:
+                mensagem_erro = 'Preencha todos os campos'
+        else:
+            mensagem_erro = 'Preencha todos os campos'
+    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro, c=c)
 
 
 # ADICIONA UM NOVO CARRO

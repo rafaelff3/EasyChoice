@@ -9,13 +9,13 @@
 <!-- Set the page to the width of the device and set the zoon level -->
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
-<link rel="icon" href="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=163840f0fecf24bf&attid=0.1&disp=safe&realattid=f_jhgm2xj90&zw">
+<link rel="icon" href="https://thumbs.dreamstime.com/b/%C3%ADcone-azul-da-cara-do-smiley-com-ponto-de-interroga%C3%A7%C3%A3o-85804001.jpg">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  
 <style>
 .jumbotron{
-    background-color:#000;
-    color:#1ad1ff;
+    background-color:#f0f0f5;
+    color:#000;
 }
 /* Adds borders for tabs */
 .tab-content {
@@ -29,127 +29,103 @@
 }
 </style>
 </head>
+
 <body>
+
 <header>
 
 <div class="container">
 <div class="page-header">
 
 <p>
-
-<h1 class="left"><a href="/"><img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" class="img-responsive img-thumbnail img-rounded" style="width:30%" alt="Responsive Image"></span></a></h1>
+<h1>
+<a href="/">
+<img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" 
+ style="width:30%" alt="Responsive Image">
+ </a><div class="text-right"> VEÍCULOS </div></h1>
 </p>
 </div>
 </div>
 
 </header>
 
-        <div class="container jumbotron text-center">
-            <h1>Ache seu carro</h1>
-        </div>
-        <div class="container jumbotron text-center">
-            <form action="/carros/ache_seu_carro" method="POST">
-                <h1> Filtros <h1/>
-                
-                <h3> Preço: <h3/>
-                <select name="precomin">
-                    <option value="0" selected>Preço mínimo</option>
-                    {%for p in PRECO%}
-                        <option value="{{p}}">{{p}}</option>
-                    {%endfor%}
-                </select>
-                <select name="precomax">
-                    <option value="300000" selected>Preço máximo</option>
-                    {%for p in PRECO%}
-                        <option value="{{p}}">{{p}}</option>
-                    {%endfor%}
-                </select>
-                
-                <h3> Categoria: <h3/>
-                <select name="categoria">
-                    <option value="0" selected>Tanto faz</option>
-                    <option value="suv">SUV</option>
-                    <option value="hatchback">Hatchback</option>
-                    <option value="perua">Perua</option>
-                    <option value="picape">Picape</option>
-                    <option value="cupe">Cupê</option>
-                    <option value="conversivel">Conversível</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="minivan">Minivan</option>
-                </select>
-                <h1> Prioridades <h1/>
-                <h3> Espaço interno: <h3/>
-                <select name="espaco_interno">
-                    <option value="1" selected>Tanto faz</option>
+<main>
+
+            <h1> O que você acha do seu carro? <h1/>
+            <h4> Avalie seu carro em uma escala de 0 (Péssimo) a 5 (Irado brother!) </h4>
+                <select name="espaco_interno" class="btn">
+                    <option value="1" selected>Espaço interno</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Consumo: <h3/>
-                <select name="consumo">
-                    <option value="1" selected>Tanto faz</option>
+                <select name="consumo" class="btn">
+                    <option value="1" selected>Consumo</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Desempenho: <h3/>
-                <select name="desempenho">
-                    <option value="1" selected>Tanto faz</option>
+                <select name="desempenho" class="btn">
+                    <option value="1" selected>Desempenho</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Conforto: <h3/>
-                <select name="conforto">
-                    <option value="1" selected>Tanto faz</option>
+                <select name="conforto" class="btn">
+                    <option value="1" selected>Conforto</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Segurança: <h3/>
-                <select name="seguranca">
-                    <option value="1" selected>Tanto faz</option>
+
+                <select name="seguranca" class="btn">
+                    <option value="1" selected> Segurança</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Custo X benefício: <h3/>
-                <select name="custo_beneficio">
-                    <option value="1" selected>Tanto faz</option>
+
+                <select name="custo_beneficio" class="btn">
+                    <option value="1" selected>Custo X benefício</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <h3> Desvalorização: <h3/>
-                <select name="desvalorizacao">
-                    <option value="1" selected>Tanto faz</option>
+                <select name="desvalorizacao" class="btn">
+                    <option value="1" selected>Baixa desvalorização</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-            </div>
-            <div class="container jumbotron text-center">    
-                <input type="submit" value="Pronto!">
-            </form>            
-        </div>
+            <textarea name="comentario" class="btn" placeholder="Comente sobre seu carro"></textarea>
+            <input type="hidden" name="asd" value="True">
+            <h1> </h1>
+            <input type="submit" value="Pronto &#10003;"  class="btn btn-primary"></form>
+
+        </form>
+    </div>
+</main>
+
+<footer>
+
 <table width=1254 align=center>
 
 <tr>
-<td bgcolor="#1ad1ff" colspan="80" height="25" width=100%>
+<td bgcolor="#f0f0f5" colspan="80" height="25" width=100%>
 <font style="font-size: 13px; font-family: arial">
 &nbsp;&nbsp;
 <a href="/" title="Página principal do EasyChoice"><font color="black">Página Principal</a>
@@ -162,12 +138,12 @@
 &nbsp;|&nbsp;
 <a href="/fale_conosco" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;
-
 <a href="/fale_conosco" title="Avise-nos sobre problemas com o site EasyChoice" rel="nofollow"><font color="black">Comunicar erro</a>
 </td>
 </tr>
 
 </table>
+</footer>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

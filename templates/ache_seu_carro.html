@@ -1,10 +1,3 @@
-
-    <body>
-
-    </body>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,21 +7,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
  
 <!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
 <link rel="icon" href="https://thumbs.dreamstime.com/b/%C3%ADcone-azul-da-cara-do-smiley-com-ponto-de-interroga%C3%A7%C3%A3o-85804001.jpg">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-
-<title>Sticky Footer Navbar Template for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-<link href="/static/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-<link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
-
+ 
 <style>
 .jumbotron{
     background-color:#f0f0f5;
@@ -48,6 +31,7 @@
 </head>
 
 <body>
+
 <header>
 
 <div class="container">
@@ -58,31 +42,34 @@
 <a href="/">
 <img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" 
  style="width:30%" alt="Responsive Image">
-</a></h1>
-
+ </a><div class="text-right"> VEÍCULOS </div></h1>
 </p>
 </div>
 </div>
 
 </header>
-<main>
-    <div class="container jumbotron text-center">
-        <div>
-          <p>
-            <h1>Adicione o seu carro</h1>
-          </p>
-          <p>
-            <h2> Qual é o seu carro? </h2>
-            <form action="/carros/add_carro" method="POST">
-
-                <input type="text" class="btn" name="marca" placeholder="Marca">
-
-                <input type="text" class="btn" name="modelo" placeholder="Modelo">
-
-                <input type="text" class="btn" name="versao" placeholder="Versão">
-
+        <div class="container jumbotron text-center">
+            <h1>Ache seu carro</h1>
+            <form action="/carros/ache_seu_carro" method="POST">
+                <h1> Filtros <h1/>
+                
+                <h3> Preço: <h3/>
+                <select name="precomin" class="btn">
+                    <option value="0" selected>Preço mínimo</option>
+                    {%for p in PRECO%}
+                        <option value="{{p}}">{{p}}</option>
+                    {%endfor%}
+                </select>
+                <select name="precomax" class="btn">
+                    <option value="300000" selected>Preço máximo</option>
+                    {%for p in PRECO%}
+                        <option value="{{p}}">{{p}}</option>
+                    {%endfor%}
+                </select>
+                
+                <h3> Categoria: <h3/>
                 <select name="categoria" class="btn">
-                    <option value="0" selected>Categoria</option>
+                    <option value="0" selected>Tanto faz</option>
                     <option value="suv">SUV</option>
                     <option value="hatchback">Hatchback</option>
                     <option value="perua">Perua</option>
@@ -92,11 +79,8 @@
                     <option value="sedan">Sedan</option>
                     <option value="minivan">Minivan</option>
                 </select>
-          </p>
-          <p>      
-                <h2> O que você acha do seu carro? <h2/>
-                <h4> Avalie seu carro em uma escala de 0 (Péssimo) a 5 (Irado brother!) </h4>
-                <input type="text" class="btn" name="preco" placeholder="Preço pago nele">
+                <h1> Prioridades <h1/>
+                <h4> Escolha na escala de 0 (Não me importo) a 5 (Prioridade máxima)</h4>
                 <select name="espaco_interno" class="btn">
                     <option value="1" selected>Espaço interno</option>
                     <option value="2">1</option>
@@ -155,19 +139,11 @@
                     <option value="5">4</option>
                     <option value="6">5</option>
                 </select>
-                <textarea name="comentario" class="btn" placeholder="Comente sobre seu carro"></textarea>
-                <h1> </h1>
-                <input type="submit" class="btn btn-primary btn-lg" value="Pronto &#10003;">
-              </p>      
-            </form>
+            </div>
+            <div class="container jumbotron text-center">    
+                <input type="submit" class="btn btn-primary btn-lg" value="Pronto!">
+            </form>            
         </div>
-    </div>
-</main>
-
-
-
-
-
 <footer>
 
 <table width=1254 align=center>
@@ -193,11 +169,7 @@
 </table>
 </footer>
 
-    <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="/static/js/popper.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>

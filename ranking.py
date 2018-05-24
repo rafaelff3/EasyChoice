@@ -1,1 +1,1 @@
-['VW Golf GTI', 'Honda Civic SI']
+['VW Golf GTI']
