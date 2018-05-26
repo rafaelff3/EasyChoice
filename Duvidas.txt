@@ -2,6 +2,8 @@ Dúvidas:
 
 1 Como por imagem via html no site
 
-2 Desabilitar o botão do celular
+2 Selecao do carro em opiniao
 
-3 Por o "Sobre" no lado direito
+3 salvar firebase
+
+4 melhorar o retorno do carro

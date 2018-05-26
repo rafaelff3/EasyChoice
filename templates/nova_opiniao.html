@@ -40,22 +40,25 @@
 <p>
 <h1>
 <a href="/">
-<img src="https://mail.google.com/mail/u/0/?ui=2&ik=0f2bf118e5&view=att&th=16383eca4f488b82&attid=0.1&disp=safe&realattid=f_jhgkqk0f1&zw" 
+<img src="/static/image/EasyChoiceLogo.png" 
  style="width:30%" alt="Responsive Image">
  </a><div class="text-right"> VEÍCULOS </div></h1>
 </p>
 </div>
 </div>
+<script>
+
+</script>
+
 
 </header>
 
 <main>
     <div class="container jumbotron text-center">
         <form action="/carros/nova_opiniao" method="POST">
-            {%if not c%}
                 <h1>Qual é o seu carro?</h1>  
                 Marca:
-                <select name="marca" placeholder="marca" class="btn">
+                <select name="marca" placeholder="marca" class="btn" onChange="Refresh(this.value)">
                     <option value="0">Fabricante</option>
                     {% for mar in carros %}
                        <option value="{{mar}}">{{mar}}</option>
@@ -64,14 +67,14 @@
                 
                 <input type="hidden" name="feito" value="True">
                 Modelo:
-                <select name="modelo" placeholder="modelo" class="btn">
+                <select name="modelo" placeholder="modelo" class="btn" onChange="Refresh(this.value)">
                     <option value="0">Modelo</option>
                     {% for modelo in carros[request.form['marca']] %}
                         <option value="{{modelo}}">{{modelo}}</option>  
                     {%endfor%}
                 </select>   
                 Versão:
-                <select name="versao" placeholder="versao" class="btn">
+                <select name="versao" placeholder="versao" class="btn" zzzzonChange="Refresh(this.value)">
                     <option value="0">Versão</option>
                     {% for modelo in carros[request.form['marca']] %}
                         {% for versao in carros[request.form['marca']][request.form['modelo']] %}
@@ -81,73 +84,7 @@
                 </select>
                 <h1> </h1>
                 <p class="mensagem-erro">{{ mensagem_erro }}</p>
-            {%endif%}
-            {%if c%}
-                <h1> O que você acha do seu carro? <h1/>
-                <h4> Avalie seu carro em uma escala de 0 (Péssimo) a 5 (Irado brother!) </h4>
-                    <input type="text" class="btn" name="preco" placeholder="Quanto você pagou no carro?">
-                    <select name="espaco_interno" class="btn">
-                        <option value="1" selected>Espaço interno</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-                    <select name="consumo" class="btn">
-                        <option value="1" selected>Consumo</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-                    <select name="desempenho" class="btn">
-                        <option value="1" selected>Desempenho</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-                    <select name="conforto" class="btn">
-                        <option value="1" selected>Conforto</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-    
-                    <select name="seguranca" class="btn">
-                        <option value="1" selected> Segurança</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-    
-                    <select name="custo_beneficio" class="btn">
-                        <option value="1" selected>Custo X benefício</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-                    <select name="desvalorizacao" class="btn">
-                        <option value="1" selected>Baixa desvalorização</option>
-                        <option value="2">1</option>
-                        <option value="3">2</option>
-                        <option value="4">3</option>
-                        <option value="5">4</option>
-                        <option value="6">5</option>
-                    </select>
-                    <textarea name="comentario" class="btn" placeholder="Comente sobre seu carro"></textarea>
-                    <h1> </h1>
-            {%endif%}
-            <input type="submit" value="Pronto &#10003;"  class="btn btn-primary">
+            <input type="submit" class="btn btn-primary" value="Pronto &#10003;">
             </form>
             
             <div>
@@ -177,9 +114,9 @@
 &nbsp;|&nbsp;
 <a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
 &nbsp;|&nbsp;
-<a href="/fale_conosco" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
+<a href="/comunicar" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;
-<a href="/fale_conosco" title="Avise-nos sobre problemas com o site EasyChoice" rel="nofollow"><font color="black">Comunicar erro</a>
+<a href="/comunicar" title="Avise-nos sobre problemas com o site EasyChoice" rel="nofollow"><font color="black">Comunicar erro</a>
 </td>
 </tr>
 
@@ -189,6 +126,38 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+
+$("#first-choice").change(function() {
+
+	var $dropdown = $(this);
+
+	$.getJSON("jsondata/data.json", function(data) {
+	
+		var key = $dropdown.val();
+		var vals = [];
+							
+		switch(key) {
+			case 'beverages':
+				vals = data.beverages.split(",");
+				break;
+			case 'snacks':
+				vals = data.snacks.split(",");
+				break;
+			case 'base':
+				vals = ['Please choose from above'];
+		}
+		
+		var $secondChoice = $("#second-choice");
+		$secondChoice.empty();
+		$.each(vals, function(index, value) {
+			$secondChoice.append("<option>" + value + "</option>");
+		});
+
+	});
+});
+
+</script>
 </body>
 
 </html>

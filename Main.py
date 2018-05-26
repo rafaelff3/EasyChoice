@@ -8,6 +8,7 @@
 from flask import Flask, render_template, request, redirect
 from ast import literal_eval
 import numpy as np
+import json
 
 # =============================================================================
 
@@ -95,13 +96,13 @@ def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo, d
 carros = {
   "VW": {
     "Fox": {
-      "MPI 1.0": Carros(55000,"hatchback",4,3,2,2,4,3,4,["Bem loco"]),
-      "MPI 1.6": Carros(70000,"hatchback",4,3,2,2,4,3,4,["Bem loco"])
+      "MPI 1.0": [55000,"hatchback",4,3,2,2,4,3,4,["Bem loco"]],
+      "MPI 1.6": [70000,"hatchback",4,3,2,2,4,3,4,["Bem loco"]]
     }
   },
   "Honda": {
     "Civic": {
-      "SI" : Carros(160000,"cupe",3,3,5,4,4,2,3,["Carin q só"])
+      "SI" : [160000,"cupe",3,3,5,4,4,2,3,["Carin q só"]]
     }
   },
 }
@@ -192,49 +193,57 @@ def dpc():
 
 # ADICIONA NOVA OPINIÃO
 
-@app.route("/carros/nova_opiniao", methods=(['POST','GET']))
+@app.route("/carros/nova_opiniao", methods=['POST','GET'])
 def nova_opiniao():
-    c = False
-    Mar = []
-    Mod = []
-    Ver = []
     mensagem_erro = ''
     if request.method == 'POST':
         marca = request.form['marca']
-        if marca != '0':
-            modelo = request.form['modelo']
-            if modelo !='0':
-                versao = request.form['versao']
-                if versao !='0':
-                    if marca!='0' and modelo!='0' and versao!='0':
-                        Mar.append(marca)
-                        Mod.append(modelo)
-                        Ver.append(versao)
-                        c = True
-                        preco = float(request.form['preco'])
-                        espaco_interno = int(request.form['espaco_interno'])
-                        consumo = int(request.form['consumo'])
-                        desempenho = int(request.form['desempenho'])
-                        conforto = int(request.form['conforto'])
-                        seguranca = int(request.form['seguranca'])
-                        custo_beneficio = int(request.form['custo_beneficio'])
-                        desvalorizacao = int(request.form['desvalorizacao'])
-                        comentario = request.form['comentario']
+        modelo = request.form['modelo']
+        versao = request.form['versao']
+        if marca!='0' and modelo!='0' and versao!='0':
                         
-                        carros[marca][modelo][versao] = Carros((carros[marca][modelo][versao].preco + preco)/2,carros[marca][modelo][versao].categoria,(carros[marca][modelo][versao].espaco_interno + espaco_interno)/2,(carros[marca][modelo][versao].consumo + consumo)/2,(carros[marca][modelo][versao].desempenho + desempenho)/2,(carros[marca][modelo][versao].conforto + conforto)/2,(carros[marca][modelo][versao].seguranca + seguranca)/2,(carros[marca][modelo][versao].custo_beneficio + custo_beneficio)/2,(carros[marca][modelo][versao].desvalorizacao + desvalorizacao)/2,carros[marca][modelo][versao].comentario.append(comentario))
-                        #return redirect("/carros/agradecimento", code=302)
-                    else:
-                        mensagem_erro = 'Preencha todos os campos'
-                else:
-                    mensagem_erro = 'Preencha todos os campos'
-            else:
-                mensagem_erro = 'Preencha todos os campos'
+            carro = [marca,modelo,versao]
+            with open('carro.py','w') as dados:
+                dados.write(str(carro))
+                        
+            return render_template('nova_opiniao_opinioes.html')
         else:
             mensagem_erro = 'Preencha todos os campos'
-    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro, c=c)
+    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
 
+@app.route("/carros/nova_opiniao/opinioes", methods=['POST','GET'])
+def opinioes():
+    mensagem_erro = ''
+    if request.method == 'POST':
+        
+        with open('carro.py','r') as dados:
+            carro = literal_eval(dados.read())
+        
+        preco = float(request.form['preco'])
+        espaco_interno = int(request.form['espaco_interno'])
+        consumo = int(request.form['consumo'])
+        desempenho = int(request.form['desempenho'])
+        conforto = int(request.form['conforto'])
+        seguranca = int(request.form['seguranca'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        desvalorizacao = int(request.form['desvalorizacao'])
+        comentario = request.form['comentario']
+        
+        marca = carro[0]
+        modelo = carro[1]
+        versao = carro[2]
+        
+        carros[marca][modelo][versao] = Carros((carros[marca][modelo][versao].preco + preco)/2,carros[marca][modelo][versao].categoria,(carros[marca][modelo][versao].espaco_interno + espaco_interno)/2,(carros[marca][modelo][versao].consumo + consumo)/2,(carros[marca][modelo][versao].desempenho + desempenho)/2,(carros[marca][modelo][versao].conforto + conforto)/2,(carros[marca][modelo][versao].seguranca + seguranca)/2,(carros[marca][modelo][versao].custo_beneficio + custo_beneficio)/2,(carros[marca][modelo][versao].desvalorizacao + desvalorizacao)/2,carros[marca][modelo][versao].comentario.append(comentario))
+        return render_template('agradece.html')
+                        
+                        
+
+    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
 
 # ADICIONA UM NOVO CARRO
+
+
+
 
 @app.route("/carros/add_carro", methods=['GET', 'POST'])
 def novo_carro():
@@ -259,6 +268,22 @@ def novo_carro():
     
     return render_template('novo_carro.html', carros=carros)
 
+# DENUNCIA ERRO
+@app.route("/comunicar",methods=(['POST','GET']))
+def comunicar():
+    if request.method == 'POST':
+        with open('erros.json','r') as dados:
+            erros = json.load(dados)
+        erro = request.form['erro']
+        erros.append(erro)
+        with open('erros.json','w') as dados:
+            erros_novos = json.dumps(erros)
+            dados.write(erros_novos)
+        return render_template('agradece.html')
+        
+    return render_template('comunicar.html')
+
+
 
 # AGRADECE
 
@@ -266,9 +291,8 @@ def novo_carro():
 def agradece():
     return render_template('agradece.html')
     
-
 # RODA O PROGRAMA
-app.run('0.0.0.0', 5007, True)
+app.run('0.0.0.0', 5008, True)
 
 # =============================================================================
 
