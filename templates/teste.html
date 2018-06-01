@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+
+function populate(s1,s2){
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+    if(s1.value == "Chevy"){
+        var optionArray = ["|","camaro|Camaro","corvette|Corvette","impala|Impala"];
+    }
+    for(var option in optionArray){
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[1];
+        s2.options.add(newOption);
+    }
+    
+}
+
+</script>
+</head>
+
+<body>
+<h2>Choose Car</h2>
+<hr />
+Choose Car maker:
+<select id="slct1" name="slct1" onchange="populate(this.id,'slct2')">
+    <option value=""></option>
+    <option value="Chevy">Chevy</option>
+    <option value="Dodge">Dodge</option>
+    <option value="Ford">Ford</option>
+</select>
+<hr />
+Choose Car Model:
+
+<select id="slct2" name="slct2"></select>
+
+<hr />
+
+</body>
+</html>
