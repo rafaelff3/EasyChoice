@@ -211,25 +211,53 @@ def ache_seu_carro():
 
 # ADICIONA NOVA OPINIÃO
 
-@app.route("/carros/nova_opiniao", methods=['POST','GET'])
-def nova_opiniao():
+@app.route("/carros/nova_opiniao/marca", methods=['POST','GET'])
+def nova_opiniao_marca():
     mensagem_erro = ''
-    mar = []
-    mod = []
-        
-    
+
+    if request.method == 'POST':
+        marca = request.form['marca']
+        if marca!='0':            
+            return render_template('nova_opiniao_modelo.html',carros=carros,marca=marca)
+        else:
+            mensagem_erro = 'Nos diga a marca do seu carro'
+    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
+
+@app.route("/carros/nova_opiniao/marca/modelo", methods=['POST','GET'])
+def nova_opiniao_modelo():
+    mensagem_erro = ''
+
+    if request.method == 'POST':
+        modelo = request.form['modelo']
+        marca = request.form['marca']
+        if modelo!='0':            
+            return render_template('nova_opiniao_versao.html',carros=carros,marca=marca,modelo=modelo)
+        else:
+            mensagem_erro = 'Nos diga o modelo do seu carro'
+    return render_template('nova_opiniao_modelo.html', carros=carros, mensagem_erro=mensagem_erro)
+
+@app.route("/carros/nova_opiniao/marca/modelo/versao", methods=['POST','GET'])
+def nova_opiniao_versao():
+    mensagem_erro = ''
+
     if request.method == 'POST':
         marca = request.form['marca']
         modelo = request.form['modelo']
         versao = request.form['versao']
-        if marca!='0' and modelo!='0' and versao!='0':
-                        
-            carro = [marca,modelo,versao]
-            
-            return render_template('nova_opiniao_opinioes.html',carro=carro)
+        if versao!='0' and marca!='0' and modelo!='0':
+            print(versao)
+            print(marca)
+            print(modelo)
+            print('asdfgdsaASDF')
+            carro = str([marca,modelo,versao])
+            return render_template('nova_opiniao_opinioes.html',carros=carros,carro=carro,marca=marca,modelo=modelo,versao=versao)
         else:
-            mensagem_erro = 'Preencha todos os campos'
-    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
+            mensagem_erro = 'Nos diga a versão do seu carro'
+    return render_template('nova_opiniao_versao.html', carros=carros, mensagem_erro=mensagem_erro)
+
+
+
+
 
 @app.route("/carros/nova_opiniao/opinioes", methods=['POST','GET'])
 def opinioes():

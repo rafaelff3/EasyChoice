@@ -14,7 +14,7 @@
  
 <style>
 .jumbotron{
-    background-color:#fff;
+    background-color:#f0f0f5;
     color:#000;
 }
 /* Adds borders for tabs */
@@ -28,6 +28,7 @@
     margin-bottom: 0;
 }
 </style>
+
 </head>
 
 <body>
@@ -41,31 +42,43 @@
 <h1>
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
- alt="HTML5 Icon" style="width:30%">
-</a><div class="text-right"> VEÍCULOS </div></h1>
-
+ style="width:30%" alt="Responsive Image">
+ </a><div class="text-right"> VEÍCULOS </div></h1>
 </p>
 </div>
 </div>
+<script>
+
+</script>
+
 
 </header>
 
 <main>
+    <div class="container jumbotron text-center">
+        <form action="/carros/nova_opiniao/marca/modelo" method="POST">
+                <h2>Qual é o modelo do seu carro?</h2>  
+                <select name="modelo" id="modelo" class="btn">
+                    <option value="0">Modelo</option>
+                    {% for mod in carros[marca] %}
+                       <option value="{{mod}}">{{mod}}</option>
+                    {%endfor%}
+                </select>
+                <h4> <font color="red"><p class="mensagem-erro">{{ mensagem_erro }}</p></font> </h4>
+                <input type="hidden" name="marca" value="{{marca}}">
+                <input type="submit" class="btn btn-primary" value="Pronto &#10003;">
+            </form>
+            
+            <div>
+                <nav class="nav nav-masthead justify-content-center">
+                <h1> </h1>
+                    <a class="nav-link" href="/carros/add_carro">Seu modelo não está na lista? Clique aqui</a>
+                </nav>          
+        
+            </div>
 
-<div class="container text-center">
-    <p><h2><a href="/carros/ache_seu_carro" title="Descubra o carro ideal para você" role="button"><img src="https://i.pinimg.com/originals/c2/18/d6/c218d69cd4c9aa8c767021a645482751.png" style="width:50%"></a></h2></p>    
-<p>
-  <a href="/carros/ache_seu_carro" class="btn btn-primary dropdown-toggle btn-lg" role="button"> DESCUBRA O CARRO IDEAL PARA VOCÊ </a>
-</p>
-<p>
-  <a href="/carros/nova_opiniao/marca" class="btn btn-primary dropdown-toggle btn-md" role="button"> OPINE SOBRE SEU CARRO E AJUDE OUTRO INDECISO </a>
-</p>
-</div>
-
+    </div>
 </main>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <footer>
 
