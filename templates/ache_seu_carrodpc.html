@@ -8,7 +8,7 @@
  
 <!-- Set the page to the width of the device and set the zoon level -->
 <title>EasyChoice</title>
-<link rel="icon" href="https://thumbs.dreamstime.com/b/%C3%ADcone-azul-da-cara-do-smiley-com-ponto-de-interroga%C3%A7%C3%A3o-85804001.jpg">
+<link rel="icon" href="/static/image/aeae.png">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 <meta charset="utf-8">
@@ -62,10 +62,30 @@
 
 <main>
     <div class="container jumbotron text-center">
-        <r>
-            <h2 class="mensagem-erro">{{mensagem_erro}}</h2>
-            <h2 class="mensagem-erro">{{resul}}</h2>
-        </r>
+        
+        <h2>Seu carro ideal é o</h2>
+        <h1>{{resul}}</h1>
+    </div>
+    <div class="container jumbotron text-center">
+        <img src="https://images.canaldapeca.com.br/produtos/g/indisponivel.png" style="width:35%" alt="Responsive Image"></img>
+        
+        <a href="https://www.google.com.br/search?biw=1393&bih=618&tbm=isch&sa=1&ei=TJoUW4OvFoGgwgSn9abQAw&q={{resul}}&oq={{resul}}&gs_l=img.3..35i39k1l2j0l2j0i67k1j0l3j0i67k1l2.5056.6107.0.6588.4.4.0.0.0.0.152.385.1j2.3.0....0...1c.1.64.img..1.3.385....0.y2hEqKpONJs" class="btn btn-primary btn-md" role="button"> Pesquise seu carro no Google! </a>
+    </div>
+    <div class="container jumbotron text-center">
+        <h2> AVALIÇÃO DOS USUÁRIOS </h2>
+        &nbsp;&nbsp;
+
+        <h2>Preço médio: R${{carros[resulS[0]][resulS[1]][resulS[2]]['Preco']}}</h2>
+        <h2>Categoria: {{carros[resulS[0]][resulS[1]][resulS[2]]['Categoria']}}</h2>
+        <h2>Desempenho: {{carros[resulS[0]][resulS[1]][resulS[2]]['Desempenho']}}/5</h2>
+        <h2>Conforto: {{carros[resulS[0]][resulS[1]][resulS[2]]['Conforto']}}/5</h2>
+        <h2>Consumo: {{carros[resulS[0]][resulS[1]][resulS[2]]['Consumo']}}/5</h2>   
+        <h2>Custo X Benefício: {{carros[resulS[0]][resulS[1]][resulS[2]]['Custo X Beneficio']}}/5</h2>
+        <h2>Desevalorização: {{carros[resulS[0]][resulS[1]][resulS[2]]['Desvalorizacao']}}/5</h2>   
+        <h2>Espaco interno: {{carros[resulS[0]][resulS[1]][resulS[2]]['Espaco Interno']}}/5</h2>   
+        <h2>Segurança: {{carros[resulS[0]][resulS[1]][resulS[2]]['Seguranca']}}/5</h2>   
+
+
     </div>
 </main>
 

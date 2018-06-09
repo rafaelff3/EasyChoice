@@ -118,6 +118,7 @@ def novaopiniao(marca,modelo,versao,preco,espaco_interno,consumo,desempenho,
     Modelo = carros[marca][modelo]
     Modelo[versao] ={
           'Preco':(carros[marca][modelo][versao]['Preco']+preco)/2,
+          'Categoria':carros[marca][modelo][versao]['Categoria'],
           'Espaco Interno':(carros[marca][modelo][versao]['Espaco Interno']+espaco_interno)/2,
           'Consumo':(carros[marca][modelo][versao]['Consumo']+consumo)/2,
           'Desempenho':(carros[marca][modelo][versao]['Desempenho']+desempenho)/2,
@@ -190,8 +191,7 @@ def ache_seu_carro():
                             Marca = {}
                             Marca[modelo] = Modelo
                             lista_carros[marca] = Marca
-        #### erro ao filtrar, ele diz que a lista esta mudando de tamanho
-        
+                            
         ranking, pontos = retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao)
         
         mensagem_erro = ''
@@ -199,11 +199,12 @@ def ache_seu_carro():
         
         if len(ranking) == 0:
             mensagem_erro = 'Nenhum carro dessa categoria nessa faixa de preço'
+            return render_template('nenhum_carro.html', mensagem_erro=mensagem_erro)
                 
         elif len(ranking) > 0:
-            resul = 'O carro ideal para você: {0}'.format(ranking[0])
-        
-        return  render_template('ache_seu_carrodpc.html', carros=carros, mensagem_erro=mensagem_erro, resul=resul)
+            resul = ranking[0]
+            resulS = resul.split()
+        return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul, ranking=ranking,resulS=resulS)
         
     return render_template('ache_seu_carro.html', carros=carros, PRECO=PRECO)
 

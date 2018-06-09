@@ -1,1 +1,0 @@
-['Honda Civic SI', 'VW Fox MPI 1.6']

@@ -9,8 +9,9 @@
 <!-- Set the page to the width of the device and set the zoon level -->
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
-<link rel="icon" href="https://thumbs.dreamstime.com/b/%C3%ADcone-azul-da-cara-do-smiley-com-ponto-de-interroga%C3%A7%C3%A3o-85804001.jpg">
+<link rel="icon" href="/static/image/aeae.png">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
  
 <style>
 .jumbotron{
@@ -50,26 +51,27 @@
 </header>
         <div class="container jumbotron text-center">
             <h1>Ache seu carro</h1>
+        </div>
+        <div class="container jumbotron text-center">
             <form action="/carros/ache_seu_carro" method="POST">
+
                 <h1> Filtros <h1/>
                 
-                <h3> Preço: <h3/>
-                <select name="precomin" class="btn">
-                    <option value="0" selected>Preço mínimo</option>
-                    {%for p in PRECO%}
-                        <option value="{{p}}">{{p}}</option>
-                    {%endfor%}
-                </select>
-                <select name="precomax" class="btn">
-                    <option value="300000" selected>Preço máximo</option>
-                    {%for p in PRECO%}
-                        <option value="{{p}}">{{p}}</option>
-                    {%endfor%}
-                </select>
+                <h3> Preço entre: <h3/>
+                
+                R$
+                <input type="text" label="asas" class="btn" name="precomin" value="0" placeholder="Preço máximo">
+                e   R$
+                <input type="text" label="asas" class="btn" name="precomax" value="10000000" placeholder="Preço máximo">
+                
+
+                
                 
                 <h3> Categoria: <h3/>
+                
+                
                 <select name="categoria" class="btn">
-                    <option value="0" selected>Tanto faz</option>
+                    <option value="0">Tanto faz</option>
                     <option value="suv">SUV</option>
                     <option value="hatchback">Hatchback</option>
                     <option value="perua">Perua</option>
@@ -78,17 +80,31 @@
                     <option value="conversivel">Conversível</option>
                     <option value="sedan">Sedan</option>
                     <option value="minivan">Minivan</option>
+                    <option value="esportivo">Esportivo</option>
                 </select>
+            </div>
+            <div class="container jumbotron text-center">
                 <h1> Prioridades <h1/>
-                <h4> Escolha na escala de 0 (Não me importo) a 5 (Prioridade máxima)</h4>
-                <select name="espaco_interno" class="btn">
-                    <option value="1" selected>Espaço interno</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
+                <h4> Escolha na escala de 1 (Não me importo) a 5 (Prioridade máxima)</h4>
+
+                <h3>Espaço interno</h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-secondary active">
+                    <input type="radio" name="espaco_interno" id="option1" value="1"> 1
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="espaco_interno" id="option2" value="2"> 2
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="espaco_interno" id="option3" value="3" checked> 3
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="espaco_interno" id="option4" value="4"> 4
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="espaco_interno" id="option5" value="5"> 5
+                  </label>
+                </div><br>
                 <select name="consumo" class="btn">
                     <option value="1" selected>Consumo</option>
                     <option value="2">1</option>

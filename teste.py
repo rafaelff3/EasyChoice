@@ -1,4 +1,4 @@
-carros = {'vw':{'up':'tsi','fox':'mpi'},'chevy':{'onix':'shit','prisma':'worse'}}
-chave = carros.keys()
+carros = 'VW Golf Gti'
+chave = carros.split()
 
 print(chave[0])
