@@ -59,34 +59,41 @@
 <h1>
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
- alt="HTML5 Icon" style="width:30%">
-</a><div class="text-right"> VEÍCULOS </div></h1>
-
+ style="width:30%" alt="Responsive Image">
+ </a><div class="text-right"> CELULARES </div></h1>
 </p>
 </div>
 </div>
+<script>
+
+</script>
+
 
 </header>
 
 <main>
+    <div class="container jumbotron text-center">
+        <form action="/celulares/nova_opiniao/marca/modelo" method="POST">
+                <h2>Qual é o modelo do seu celular?</h2>  
 
-<div class="container text-center">
-    <p><h2><a href="/carros/ache_seu_carro" title="Descubra o carro ideal para você" role="button"><img src="https://i.pinimg.com/originals/c2/18/d6/c218d69cd4c9aa8c767021a645482751.png" style="width:50%"></a></h2></p>    
-<p>
-  <a href="/carros/ache_seu_carro" class="btn btn-primary btn-lg" role="button"> DESCUBRA O CARRO IDEAL PARA VOCÊ </a>
-</p>
-<p>
-  <a href="/carros/nova_opiniao/marca" class="btn btn-secondary" role="button"> OPINE SOBRE SEU CARRO E AJUDE OUTRO INDECISO </a>
-</p>
-<p>
-  <a href="/carros/ache_seu_carro_alea" class="btn btn-success" role="button"> SORTEAR UM CARRO!       </a><img src="https://images.emojiterra.com/mozilla/512px/1f340.png" style="width:3%">
-</p>
-</div>
+                    {% for mod in celulares[marca] %}
+                        <input class="btn btn-lg btn-primary" type="submit" name="modelo" value="{{mod}}">
+                    {%endfor%}
 
+
+                <input type="hidden" name="marca" value="{{marca}}">
+            </form>
+            
+            <div>
+                <nav class="nav nav-masthead justify-content-center">
+                <h1> </h1>
+                    <a class="nav-link" href="/celulares/add_celular"><h4>Sua modelo não está na lista? Clique aqui</h4></a>
+                </nav>          
+        
+            </div>
+
+    </div>
 </main>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <footer>
 

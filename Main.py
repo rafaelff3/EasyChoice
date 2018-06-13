@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from ast import literal_eval
 import json
 import copy
+from random import randint
 # =============================================================================
 
 
@@ -12,6 +13,8 @@ import copy
 firebase = firebase.FirebaseApplication('https://easychoicedsoft.firebaseio.com/', None)
 
 carros = firebase.get('/Carros', None)
+
+celulares = firebase.get('/Celulares', None)
 
 # =============================================================================
 
@@ -130,8 +133,8 @@ def novaopiniao(marca,modelo,versao,preco,espaco_interno,consumo,desempenho,
             'Conforto':(carros[marca][modelo][versao]['Conforto']+conforto)/2,
             'Seguranca':(carros[marca][modelo][versao]['Seguranca']+seguranca)/2,
             'Custo X Beneficio':(carros[marca][modelo][versao]['Custo X Beneficio']+custo_beneficio)/2,
-            'Desvalorizacao':(carros[marca][modelo][versao]['Desvalorizacao']+consumo)/2,
-            'Manutencao':(carros[marca][modelo][versao]['Manutencao']+consumo)/2,
+            'Desvalorizacao':(carros[marca][modelo][versao]['Desvalorizacao']+desvalorizacao)/2,
+            'Manutencao':(carros[marca][modelo][versao]['Manutencao']+manutencao)/2,
             'Comentario':'{0};{1}'.format(carros[marca][modelo][versao]['Comentario'],comentario),
             'Imagem': carros[marca][modelo][versao]['Imagem'],
             'Opinioes':carros[marca][modelo][versao]['Opinioes'] + 1
@@ -140,6 +143,7 @@ def novaopiniao(marca,modelo,versao,preco,espaco_interno,consumo,desempenho,
     Marca = carros[marca]
     Marca[modelo] = Modelo
     firebase.put('/Carros',marca, Marca)
+
 
 
 def filtro(carros,Categoria,Precomin,Precomax):
@@ -159,7 +163,64 @@ def filtro(carros,Categoria,Precomin,Precomax):
                     del lista[marca][modelo][versao]
     return lista
                 
-                
+def novaopiniao_cel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario):
+    Marca = celulares[marca]
+
+    Marca[modelo] ={
+            'Preco':(celulares[marca][modelo]['Preco']+preco)/2,
+            'Acabamento':(celulares[marca][modelo]['Acabamento']+acabamento)/2,
+            'Camera frontal':(celulares[marca][modelo]['Camera frontal']+camera_front)/2,
+            'Camera traseira':(celulares[marca][modelo]['Camera traseira']+camera_tras)/2,
+            'Desempenho':(celulares[marca][modelo]['Desempenho']+desempenho)/2,
+            'Tempo de carregamento':(celulares[marca][modelo]['Tempo de carregamento']+t_carregamento)/2,
+            'Duracao da bateria':(celulares[marca][modelo]['Duracao da bateria']+duracao_bateria)/2,
+            'Custo X Beneficio':(celulares[marca][modelo]['Custo X Beneficio']+custo_beneficio)/2,
+            'Comentario':'{0};{1}'.format(celulares[marca][modelo]['Comentario'],comentario),
+            'Imagem': celulares[marca][modelo]['Imagem'],
+            'Opinioes':celulares[marca][modelo]['Opinioes'] + 1
+            }
+    
+    celulares[marca] = Marca
+    firebase.put('/Celulares',marca, Marca)               
+
+def addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario):
+    
+    
+    if marca in celulares:
+        Marca = celulares[marca]
+        Marca[modelo] ={
+                'Preco':preco,
+                'Acabamento':acabamento,
+                'Camera frontal':camera_front,
+                'Camera traseira':camera_tras,
+                'Desempenho':desempenho,
+                'Tempo de carregamento':t_carregamento,
+                'Duracao da bateria':duracao_bateria,
+                'Custo X Beneficio':custo_beneficio,
+                'Comentario':comentario,
+                'Imagem': "bota ae",
+                'Opinioes':1
+            }
+        celulares[marca] = Marca
+    
+    else:
+        Marca = {}
+        Marca[modelo] ={
+                'Preco':preco,
+                'Acabamento':acabamento,
+                'Camera frontal':camera_front,
+                'Camera traseira':camera_tras,
+                'Desempenho':desempenho,
+                'Tempo de carregamento':t_carregamento,
+                'Duracao da bateria':duracao_bateria,
+                'Custo X Beneficio':custo_beneficio,
+                'Comentario':comentario,
+                'Imagem': "bota ae",
+                'Opinioes':1
+                }
+        celulares[marca] = Marca 
+    
+    firebase.put('/Celulares',marca, celulares[marca])
 
 # =============================================================================
 
@@ -226,13 +287,13 @@ def ache_seu_carro():
 
 @app.route("/carros/ache_seu_carro_prox", methods=['POST','GET'])
 def prox_carro():
-        
     rank = request.form['ranking']
     
     ranking = literal_eval(rank)
     
-    
-    print(ranking)
+    mensagem_erro = ''
+    resul = ''
+    del ranking[0]
     
     
     if len(ranking) == 0:
@@ -250,7 +311,36 @@ def prox_carro():
             Imagem = carros[resulS[0]][resulS[1]][resulS[2]]['Imagem']
         return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
     
+@app.route("/carros/ache_seu_carro_alea", methods=['POST','GET'])
+def alea_carro():
+    
+    ranking,pontos = retornarank(carros,randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100))
+    
+    mensagem_erro = ''
+    resul = ''
+    
+    print('ranking aleatorio:')
+    print(ranking)
+    print(pontos)
+    
+    
+    if len(ranking) == 0:
+        mensagem_erro = 'Nenhum carro dessa categoria nessa faixa de preço'
+        return render_template('nenhum_carro.html', mensagem_erro=mensagem_erro)
+    
+    elif len(ranking) > 0:
+        resul = ranking[0]
+        resulS = resul.split(' ',2)
+        comentarios=copy.copy(carros[resulS[0]][resulS[1]][resulS[2]]['Comentario'])
+        comentarios=comentarios.split(";")
+        imagem = (carros[resulS[0]][resulS[1]][resulS[2]]['Imagem'] != "bota ae")
+        Imagem=''
+        if imagem:
+            Imagem = carros[resulS[0]][resulS[1]][resulS[2]]['Imagem']
+        print(Imagem)
+        return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
 
+    
 # ADICIONA NOVA OPINIÃO
 
 @app.route("/carros/nova_opiniao/marca", methods=['POST','GET'])
@@ -287,10 +377,6 @@ def nova_opiniao_versao():
         modelo = request.form['modelo']
         versao = request.form['versao']
         if versao!='0' and marca!='0' and modelo!='0':
-            print(versao)
-            print(marca)
-            print(modelo)
-            print('asdfgdsaASDF')
             carro = str([marca,modelo,versao])
             return render_template('nova_opiniao_opinioes.html',carros=carros,carro=carro,marca=marca,modelo=modelo,versao=versao)
         else:
@@ -428,12 +514,114 @@ def agradece():
 
 
 
-# PÁGINA CELULARES
+# PÁGINA VIAGENS
 
 @app.route("/viagens", methods=['POST','GET'])    
 def pag_viagens():        
     return render_template('viagens.html')
+
+
+# =============================================================================
     
+@app.route("/celulares", methods=['POST','GET'])    
+def pag_celulares():        
+    return render_template('celulares.html')
+
+@app.route("/celulares/nova_opiniao/marca", methods=['POST','GET'])
+def nova_opiniao_celulares_marca():
+    mensagem_erro = ''
+
+    if request.method == 'POST':
+        marca = request.form['marca']
+        if marca!='0': 
+            return render_template('nova_opiniao_celulares_modelo.html',celulares=celulares,marca=marca)
+        else:
+            mensagem_erro = 'Nos diga a marca do seu carro'
+    return render_template('nova_opiniao_celulares_marca.html', celulares=celulares, mensagem_erro=mensagem_erro)
+
+@app.route("/celulares/nova_opiniao/marca/modelo", methods=['POST','GET'])
+def nova_opiniao_celulares_modelo():
+    mensagem_erro = ''
+
+    if request.method == 'POST':
+        modelo = request.form['modelo']
+        marca = request.form['marca']
+        if modelo!='0':     
+            celular = str([marca,modelo])
+            return render_template('nova_opiniao_celulares_opinioes.html',celular=celular,celulares=celulares,marca=marca,modelo=modelo)
+        else:
+            mensagem_erro = 'Nos diga o modelo do seu carro'
+    return render_template('nova_opiniao_celulares_modelo.html', celulares=celulares, mensagem_erro=mensagem_erro)
+
+@app.route("/celulares/nova_opiniao/opinioes", methods=['POST','GET'])
+def opinioes_cel():
+    mensagem_erro = ''
+    cel = request.form['celular']
+    celular = literal_eval(cel)
+    if request.method == 'POST':
+
+        preco = float(request.form['preco'])
+        duracao_bateria = int(request.form['duracao_bateria'])
+        desempenho = int(request.form['desempenho'])
+        acabamento = int(request.form['acabamento'])
+        camera_front = int(request.form['camera_front'])
+        camera_tras = int(request.form['camera_tras'])
+        t_carregamento = int(request.form['t_carregamento'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        comentario = request.form['comentario']
+        
+        
+        
+        marca = celular[0]
+        
+        modelo = celular[1]
+
+        
+        if preco=='' or duracao_bateria==0  or desempenho==0 or custo_beneficio==0:
+            mensagem_erro = 'Preencha todos os campos'
+        
+        else:
+            novaopiniao_cel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+            return render_template('agradece.html')
+                        
+                        
+
+    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
+
+@app.route("/celulares/add_cel", methods=['GET', 'POST'])
+def novo_cel():
+    mensagem_erro = ''
+    if request.method == 'POST':    
+        marca = request.form['marca'].replace(" ","-").upper()
+        modelo = request.form['modelo'].replace(" ","-").upper()
+        preco = request.form['preco']
+        camera_front = request.form['camera_front']
+        camera_tras = int(request.form['camera_tras'])
+        duracao_bateria = int(request.form['duracao_bateria'])
+        desempenho = int(request.form['desempenho'])
+        t_carregamento = int(request.form['t_carregamento'])
+        acabamento = int(request.form['acabamento'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        comentario = request.form['comentario']        
+        
+        
+        if marca in celulares:
+            if modelo in celulares[marca]:
+                mensagem_erro = 'Esse carro já está no nosso dicionário'
+            
+            else:
+                addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+        
+                return render_template('agradece.html')
+                
+        else:
+            addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+        
+            return render_template('agradece.html')
+    
+    return render_template('novo_carro.html', celulares=celulares, mensagem_erro=mensagem_erro)
+
+
 # RODA O PROGRAMA
 app.run('0.0.0.0', 5002, True)
 

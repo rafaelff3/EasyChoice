@@ -61,7 +61,7 @@
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
  style="width:30%" alt="Responsive Image">
- </a><div class="text-right"> VEÍCULOS </div></h1>
+ </a><div class="text-right"> CELULARES </div></h1>
 </p>
 </div>
 </div>
@@ -70,51 +70,70 @@
 
 <main>
     <div class="container jumbotron text-center">
-        <form action="/carros/nova_opiniao/opinioes" method="POST">
-            <h1> O que você acha do seu carro? <h1/>
-            <h4> Avalie seu {{marca}} {{modelo}} {{versao}} em uma escala de 1 (Péssimo) a 5 (Irado brother!) </h4>
+        <form action="/celulares/nova_opiniao/opinioes" method="POST">
+            <h1> O que você acha do seu celular? <h1/>
+            <h4> Avalie seu {{marca}} {{modelo}} em uma escala de 1 (Péssimo) a 5 (Irado brother!) </h4>
             <h3> Preço </h3>
                 R$  <input type="text" class="btn" name="preco" placeholder="Quanto você pagou nele">,00
                 <hr>
-                <h3> Espaço Interno </h3>
+                <h3> Acabamento </h3>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="espaco_interno" value="1" >1
+                    <input type="radio" name="acabamento" value="1" >1
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="espaco_interno" value="2">2
+                    <input type="radio" name="acabamento" value="2">2
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="espaco_interno" value="3">3
+                    <input type="radio" name="acabamento" value="3">3
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="espaco_interno" value="4">4
+                    <input type="radio" name="acabamento" value="4">4
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="espaco_interno" value="5">5
+                    <input type="radio" name="acabamento" value="5">5
                   </label>
 
                 </div>
                 <hr>
-                <h3> Consumo </h3>
+                <h3> Duração da bateria </h3>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="consumo" value="1" >1
+                    <input type="radio" name="duracao_bateria" value="1" >1
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="consumo" value="2">2
+                    <input type="radio" name="duracao_bateria" value="2">2
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="consumo" value="3">3
+                    <input type="radio" name="duracao_bateria" value="3">3
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="consumo" value="4">4
+                    <input type="radio" name="duracao_bateria" value="4">4
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="consumo" value="5">5
+                    <input type="radio" name="duracao_bateria" value="5">5
                   </label>
                 </div><hr>
-                
+                <h3> Tempo de carregamento </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="t_carregamento" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="t_carregamento" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="t_carregamento" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="t_carregamento" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="t_carregamento" value="5">5
+                  </label>
+
+                </div><hr>                 
                 <h3> Desempenho </h3>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-lg btn-primary">
@@ -133,40 +152,41 @@
                     <input type="radio" name="desempenho" value="5">5
                   </label>
                 </div><hr>
-                <h3> Conforto </h3>
+                <h3> Camera </h3>
+                <h4> Traseira </h4>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="conforto" value="1" >1
+                    <input type="radio" name="camera_tras" value="1" >1
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="conforto" value="2">2
+                    <input type="radio" name="camera_tras" value="2">2
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="conforto" value="3">3
+                    <input type="radio" name="camera_tras" value="3">3
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="conforto" value="4">4
+                    <input type="radio" name="camera_tras" value="4">4
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="conforto" value="5">5
+                    <input type="radio" name="camera_tras" value="5">5
                   </label>
-                </div><hr>
-                <h3> Segurança </h3>
+                </div>
+                <h4> Frontal (Selfie) </h4>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="seguranca" value="1" >1
+                    <input type="radio" name="camera_front" value="1" >1
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="seguranca" value="2">2
+                    <input type="radio" name="camera_front" value="2">2
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="seguranca" value="3">3
+                    <input type="radio" name="camera_front" value="3">3
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="seguranca" value="4">4
+                    <input type="radio" name="camera_front" value="4">4
                   </label>
                   <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="seguranca" value="5">5
+                    <input type="radio" name="camera_front" value="5">5
                   </label>
                 </div><hr>
 
@@ -187,53 +207,14 @@
                   <label class="btn btn-lg btn-primary">
                     <input type="radio" name="custo_beneficio" value="5">5
                   </label>
-                </div><hr>
-                <h3> Desvalorização </h3>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <h4>ALTA</h4>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="desvalorizacao" value="1" >1
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="desvalorizacao" value="2">2
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="desvalorizacao" value="3">3
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="desvalorizacao" value="4">4
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="desvalorizacao" value="5">5
-                  </label>
-                  <h4>BAIXA</h4>
-                </div><hr>       
-                <h3> Manutenção </h3>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <h4>CARA</h4>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="manutencao" value="1" >1
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="manutencao" value="2">2
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="manutencao" value="3">3
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="manutencao" value="4">4
-                  </label>
-                  <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="manutencao" value="5">5
-                  </label>
-                  <h4>BARATA</h4>
-                </div><hr> 
+                </div><hr>      
+
                 <h3> Comentário </h3>
                 <div class="form-group shadow-textarea">                           
-                <textarea name="comentario" rows="5" class="form-control z-depth-1 text-center" placeholder="Comente sobre seu carro"></textarea><hr>
+                <textarea name="comentario" rows="5" class="form-control z-depth-1 text-center" placeholder="Comente sobre seu celular"></textarea><hr>
                 </div>
-            <input type="hidden" name="asd" value="True">
-            <input type="hidden" name="carro" value="{{carro}}">
+
+            <input type="hidden" name="celular" value="{{celular}}">
             <h4> <font color="red">{{mensagem_erro}}</font> </h4>
             <input type="submit" value="Pronto &#10003;"  class="btn btn-primary btn-lg btn-block"></form>
 
