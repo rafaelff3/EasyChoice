@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +8,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
  
 <!-- Set the page to the width of the device and set the zoon level -->
-<meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
 <link rel="icon" href="/static/image/aeae.png">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- 
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+<title>Sticky Footer Navbar Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+<link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+
 <style>
 .jumbotron{
     background-color:#f0f0f5;
@@ -27,8 +38,16 @@
 .nav-tabs {
     margin-bottom: 0;
 }
+.shadow-textarea textarea.form-control::placeholder {
+    font-weight: 300;
+}
+.shadow-textarea textarea.form-control {
+    padding-left: 0.8rem;
+}
+
 </style>
 </head>
+
 
 <body>
 
@@ -53,71 +72,166 @@
     <div class="container jumbotron text-center">
         <form action="/carros/nova_opiniao/opinioes" method="POST">
             <h1> O que você acha do seu carro? <h1/>
-            <h4> Avalie seu carro em uma escala de 1 (Péssimo) a 5 (Irado brother!) </h4>
-                <input type="text" class="btn" name="preco" placeholder="Quanto você pagou nele">
-                <select name="espaco_interno" class="btn">
-                    <option value="0" selected>Espaço interno</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select name="consumo" class="btn">
-                    <option value="0" selected>Consumo</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select name="desempenho" class="btn">
-                    <option value="0" selected>Desempenho</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select name="conforto" class="btn">
-                    <option value="0" selected>Conforto</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+            <h4> Avalie seu {{marca}} {{modelo}} {{versao}} em uma escala de 1 (Péssimo) a 5 (Irado brother!) </h4>
+            <h3> Preço </h3>
+                R$  <input type="text" class="btn" name="preco" placeholder="Quanto você pagou nele">,00
+                <hr>
+                <h3> Espaço Interno </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="espaco_interno" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="espaco_interno" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="espaco_interno" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="espaco_interno" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="espaco_interno" value="5">5
+                  </label>
 
-                <select name="seguranca" class="btn">
-                    <option value="0" selected> Segurança</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                </div>
+                <hr>
+                <h3> Consumo </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="consumo" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="consumo" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="consumo" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="consumo" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="consumo" value="5">5
+                  </label>
+                </div><hr>
+                
+                <h3> Desempenho </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desempenho" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desempenho" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desempenho" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desempenho" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desempenho" value="5">5
+                  </label>
+                </div><hr>
+                <h3> Conforto </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="conforto" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="conforto" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="conforto" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="conforto" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="conforto" value="5">5
+                  </label>
+                </div><hr>
+                <h3> Segurança </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="seguranca" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="seguranca" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="seguranca" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="seguranca" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="seguranca" value="5">5
+                  </label>
+                </div><hr>
 
-                <select name="custo_beneficio" class="btn">
-                    <option value="0" selected>Custo X benefício</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select name="desvalorizacao" class="btn">
-                    <option value="0" selected>Baixa desvalorização</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            <textarea name="comentario" class="btn" placeholder="Comente sobre seu carro"></textarea>
+                <h3> Custo X Benefício </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="custo_beneficio" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="custo_beneficio" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="custo_beneficio" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="custo_beneficio" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="custo_beneficio" value="5">5
+                  </label>
+                </div><hr>
+                <h3> Desvalorização </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desvalorizacao" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desvalorizacao" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desvalorizacao" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desvalorizacao" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="desvalorizacao" value="5">5
+                  </label>
+                </div><hr>       
+                <h3> Manutenção </h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="manutencao" value="1" >1
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="manutencao" value="2">2
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="manutencao" value="3">3
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="manutencao" value="4">4
+                  </label>
+                  <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="manutencao" value="5">5
+                  </label>
+                </div><hr> 
+                <h3> Comentário </h3>
+                <div class="form-group shadow-textarea">                           
+                <textarea name="comentario" rows="5" class="form-control z-depth-1 text-center" placeholder="Comente sobre seu carro"></textarea><hr>
+                </div>
             <input type="hidden" name="asd" value="True">
             <input type="hidden" name="carro" value="{{carro}}">
             <h4> <font color="red">{{mensagem_erro}}</font> </h4>
-            <input type="submit" value="Pronto &#10003;"  class="btn btn-primary"></form>
+            <input type="submit" value="Pronto &#10003;"  class="btn btn-primary btn-lg btn-block"></form>
 
         </form>
     </div>
@@ -135,9 +249,9 @@
 &nbsp;|&nbsp;
 <a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
 &nbsp;|&nbsp;
-<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+<a href="/termos" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
 &nbsp;|&nbsp;
-<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+<a href="/termos" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
 &nbsp;|&nbsp;
 <a href="/comunicar" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;

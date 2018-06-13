@@ -47,11 +47,11 @@
 <div class="page-header">
 
 <p>
-<h1>
+
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
- class="img-responsive img-thumbnail img-rounded" style="width:30%" alt="Responsive Image">
-</a></h1>
+ class="img-responsive" style="width:30%" alt="Responsive Image">
+</a>
 
 </p>
 </div>
@@ -67,9 +67,13 @@
         <h1>{{resul}}</h1>
     </div>
     <div class="container jumbotron text-center">
+    {%if not imagem%}
         <img src="https://images.canaldapeca.com.br/produtos/g/indisponivel.png" style="width:35%" alt="Responsive Image"></img>
-        
-        <a href="https://www.google.com.br/search?biw=1393&bih=618&tbm=isch&sa=1&ei=TJoUW4OvFoGgwgSn9abQAw&q={{resul}}&oq={{resul}}&gs_l=img.3..35i39k1l2j0l2j0i67k1j0l3j0i67k1l2.5056.6107.0.6588.4.4.0.0.0.0.152.385.1j2.3.0....0...1c.1.64.img..1.3.385....0.y2hEqKpONJs" class="btn btn-primary btn-md" role="button"> Pesquise seu carro no Google! </a>
+    {%endif%}
+    {%if imagem%}
+        <img src="{{Imagem}}" style="width:35%" class="rounded" alt="Responsive Image"></img>
+    {%endif%}
+        <a href="https://www.google.com.br/search?biw=1393&bih=618&tbm=isch&sa=1&ei=TJoUW4OvFoGgwgSn9abQAw&q={{resul}}&oq={{resul}}&gs_l=img.3..35i39k1l2j0l2j0i67k1j0l3j0i67k1l2.5056.6107.0.6588.4.4.0.0.0.0.152.385.1j2.3.0....0...1c.1.64.img..1.3.385....0.y2hEqKpONJs" target="_blank" class="btn btn-primary btn-md" role="button"> Pesquise seu carro no Google! </a>
     </div>
     <div class="container jumbotron text-center">
         <h2> AVALIÇÃO DOS USUÁRIOS </h2>
@@ -83,10 +87,27 @@
         <h2>Custo X Benefício: {{carros[resulS[0]][resulS[1]][resulS[2]]['Custo X Beneficio']}}/5</h2>
         <h2>Desevalorização: {{carros[resulS[0]][resulS[1]][resulS[2]]['Desvalorizacao']}}/5</h2>   
         <h2>Espaco interno: {{carros[resulS[0]][resulS[1]][resulS[2]]['Espaco Interno']}}/5</h2>   
-        <h2>Segurança: {{carros[resulS[0]][resulS[1]][resulS[2]]['Seguranca']}}/5</h2>   
-
+        <h2>Segurança: {{carros[resulS[0]][resulS[1]][resulS[2]]['Seguranca']}}/5</h2>
+        <h2>Manutenção: {{carros[resulS[0]][resulS[1]][resulS[2]]['Manutencao']}}/5</h2>   
+        <h2>Número de reviews: {{carros[resulS[0]][resulS[1]][resulS[2]]['Opinioes']}}</h2>
 
     </div>
+        </div>
+    <div class="container jumbotron text-center">
+        <h2>COMENTÁRIOS</h2>
+        &nbsp;&nbsp;
+        {%for i in comentarios%}
+            <h2>"{{i}}"</h2>
+        {%endfor%}
+    </div>
+    <div class="container jumbotron text-center">
+        <form action="/carros/ache_seu_carro_prox" method="POST"> 
+            <input type="hidden" name="ranking" value="{{ranking}}">
+            <input class="btn btn-lg btn-primary" type="submit" value="NÃO GOSTOU DESSE? CLIQUE AQUI PARA VER PRÓXIMO CARRO DO SEU RANKING"> 
+            
+        </form>
+    </div>
+    
 </main>
 
 
@@ -105,9 +126,9 @@
 &nbsp;|&nbsp;
 <a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
 &nbsp;|&nbsp;
-<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+<a href="/termos" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
 &nbsp;|&nbsp;
-<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+<a href="/termos" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
 &nbsp;|&nbsp;
 <a href="/comunicar" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;

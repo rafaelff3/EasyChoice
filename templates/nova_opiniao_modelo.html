@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +8,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
  
 <!-- Set the page to the width of the device and set the zoon level -->
-<meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>EasyChoice</title>
 <link rel="icon" href="/static/image/aeae.png">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- 
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+<title>Sticky Footer Navbar Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+<link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+
 <style>
 .jumbotron{
     background-color:#f0f0f5;
@@ -27,8 +38,14 @@
 .nav-tabs {
     margin-bottom: 0;
 }
-</style>
+.shadow-textarea textarea.form-control::placeholder {
+    font-weight: 300;
+}
+.shadow-textarea textarea.form-control {
+    padding-left: 0.8rem;
+}
 
+</style>
 </head>
 
 <body>
@@ -58,21 +75,19 @@
     <div class="container jumbotron text-center">
         <form action="/carros/nova_opiniao/marca/modelo" method="POST">
                 <h2>Qual é o modelo do seu carro?</h2>  
-                <select name="modelo" id="modelo" class="btn">
-                    <option value="0">Modelo</option>
+
                     {% for mod in carros[marca] %}
-                       <option value="{{mod}}">{{mod}}</option>
+                        <input class="btn btn-lg btn-primary" type="submit" name="modelo" value="{{mod}}">
                     {%endfor%}
-                </select>
-                <h4> <font color="red"><p class="mensagem-erro">{{ mensagem_erro }}</p></font> </h4>
+
+
                 <input type="hidden" name="marca" value="{{marca}}">
-                <input type="submit" class="btn btn-primary" value="Pronto &#10003;">
             </form>
             
             <div>
                 <nav class="nav nav-masthead justify-content-center">
                 <h1> </h1>
-                    <a class="nav-link" href="/carros/add_carro">Seu modelo não está na lista? Clique aqui</a>
+                    <a class="nav-link" href="/carros/add_carro"><h4>Sua modelo não está na lista? Clique aqui</h4></a>
                 </nav>          
         
             </div>
@@ -92,9 +107,9 @@
 &nbsp;|&nbsp;
 <a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
 &nbsp;|&nbsp;
-<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+<a href="/termos" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
 &nbsp;|&nbsp;
-<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+<a href="/termos" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
 &nbsp;|&nbsp;
 <a href="/comunicar" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;

@@ -28,6 +28,40 @@
 .nav-tabs {
     margin-bottom: 0;
 }
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 70%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #0073e6;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
 </style>
 </head>
 
@@ -66,95 +100,82 @@
                 
 
                 
-                
+            <hr>
                 <h3> Categoria: <h3/>
                 
-                
-                <select name="categoria" class="btn">
-                    <option value="0">Tanto faz</option>
-                    <option value="suv">SUV</option>
-                    <option value="hatchback">Hatchback</option>
-                    <option value="perua">Perua</option>
-                    <option value="picape">Picape</option>
-                    <option value="cupe">Cupê</option>
-                    <option value="conversivel">Conversível</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="minivan">Minivan</option>
-                    <option value="esportivo">Esportivo</option>
-                </select>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-secondary active">
+                    <input type="radio" name="categoria" value="0" checked> Tanto Faz
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="suv">SUV
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="hatchback">Hatchback
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="perua">Perua
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="picape">Picape
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="cupe">Cupê
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="conversivel">Conversível
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="sedan">Sedan
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="minivan">Minivan
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="categoria" value="esportivo">Esportivo
+                  </label>
+
+                </div><br>
             </div>
             <div class="container jumbotron text-center">
                 <h1> Prioridades <h1/>
-                <h4> Escolha na escala de 1 (Não me importo) a 5 (Prioridade máxima)</h4>
+                <h4>Não me importo <img src="https://image.flaticon.com/icons/svg/50/50849.svg" 
+ style="width:5%" > Prioridade máxima</h4>
 
-                <h3>Espaço interno</h3>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary active">
-                    <input type="radio" name="espaco_interno" id="option1" value="1"> 1
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="espaco_interno" id="option2" value="2"> 2
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="espaco_interno" id="option3" value="3" checked> 3
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="espaco_interno" id="option4" value="4"> 4
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="espaco_interno" id="option5" value="5"> 5
-                  </label>
-                </div><br>
-                <select name="consumo" class="btn">
-                    <option value="1" selected>Consumo</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
-                <select name="desempenho" class="btn">
-                    <option value="1" selected>Desempenho</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
-                <select name="conforto" class="btn">
-                    <option value="1" selected>Conforto</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
-
-                <select name="seguranca" class="btn">
-                    <option value="1" selected> Segurança</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
-
-                <select name="custo_beneficio" class="btn">
-                    <option value="1" selected>Custo X benefício</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
-                <select name="desvalorizacao" class="btn">
-                    <option value="1" selected>Baixa desvalorização</option>
-                    <option value="2">1</option>
-                    <option value="3">2</option>
-                    <option value="4">3</option>
-                    <option value="5">4</option>
-                    <option value="6">5</option>
-                </select>
+                <p>
+                
+                <div class="slidecontainer">
+                  <h3>Espaço interno</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="2" name="espaco_interno">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Manutenção barata</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="manutencao">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Consumo</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="consumo">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Desempenho</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="desempenho">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Conforto</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="conforto">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Segurança</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="seguranca">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Custo X benefício</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="custo_beneficio">
+                </div>
+                <hr>
+                <div class="slidecontainer">
+                  <h3>Baixa desvalorização</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="desvalorizacao">
+                </div>
+                </p>
             </div>
             <div class="container jumbotron text-center">    
                 <input type="submit" class="btn btn-primary btn-lg" value="Pronto!">
@@ -172,9 +193,9 @@
 &nbsp;|&nbsp;
 <a href="/sobre" title="Como funciona o nosso algorítmo" rel="nofollow"><font color="black">Sobre o site</a>
 &nbsp;|&nbsp;
-<a href="/" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
+<a href="/termos" title="Política de Privacidade" rel="nofollow"><font color="black">Privacidade</a>
 &nbsp;|&nbsp;
-<a href="/" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
+<a href="/termos" title="Termos de uso" rel="nofollow"><font color="black">Termos de uso</a>
 &nbsp;|&nbsp;
 <a href="/comunicar" title="Entre em contato com o time EasyChoice" rel="nofollow"><font color="black">Fale Conosco</a>
 &nbsp;|&nbsp;

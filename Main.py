@@ -2,8 +2,8 @@
 from firebase import firebase
 from flask import Flask, render_template, request
 from ast import literal_eval
-import numpy as np
 import json
+import copy
 # =============================================================================
 
 
@@ -15,16 +15,12 @@ carros = firebase.get('/Carros', None)
 
 # =============================================================================
 
-PRECO = np.arange(0,300000,2500)
-
-# =============================================================================
-
 
 # === FUNÇÕES ===
 
 # FUNÇÃO QUE RETORNA O RANKING
 
-def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao):
+def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao,Manutencao):
     ranking = {}
     for marca in lista_carros:
         for modelo in lista_carros[marca]:
@@ -38,11 +34,13 @@ def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranc
                 pontos += int(carros[marca][modelo][versao]['Conforto']) * Conforto
                 pontos += int(carros[marca][modelo][versao]['Seguranca']) * Seguranca
                 pontos += int(carros[marca][modelo][versao]['Custo X Beneficio']) * Custo_beneficio
+                pontos += int(carros[marca][modelo][versao]['Manutencao']) * Manutencao
                 
                 
                 ranking['{0} {1} {2}'.format(marca,modelo,versao)] = pontos
-                
-                
+                print(pontos)
+    print(ranking)
+    
     carro = []
     ponto = []
 
@@ -65,7 +63,7 @@ def retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranc
 # FUNÇÃO QUE ADICIONA UM CARRO AO DICIONÁRIO
 
 def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo,
-             desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario):
+             desempenho, conforto, seguranca, custo_beneficio, desvalorizacao,manutencao, comentario):
     
     Modelo = {}
     Modelo[versao] ={
@@ -78,7 +76,10 @@ def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo,
             'Seguranca': seguranca,
             'Custo X Beneficio': custo_beneficio,
             'Desvalorizacao': desvalorizacao,
-            'Comentario': comentario
+            'Manutencao': manutencao,
+            'Comentario': comentario,
+            'Imagem': "bota ae",
+            'Opinioes':1
             }
     
     Marca={}
@@ -96,7 +97,10 @@ def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo,
                     'Seguranca': seguranca,
                     'Custo X Beneficio': custo_beneficio,
                     'Desvalorizacao': desvalorizacao,
-                    'Comentario': comentario
+                    'Manutencao': manutencao,
+                    'Comentario': comentario,
+                    'Imagem': "bota ae",
+                    'Opinioes':1
                     }
             Marca={}
             Marca[modelo]=Modelo
@@ -114,26 +118,48 @@ def addcarro(marca, modelo, versao, preco, categoria, espaco_interno, consumo,
     
 
 def novaopiniao(marca,modelo,versao,preco,espaco_interno,consumo,desempenho,
-                conforto,seguranca,custo_beneficio,desvalorizacao,comentario):
+                conforto,seguranca,custo_beneficio,desvalorizacao,manutencao,comentario):
     Modelo = carros[marca][modelo]
+
     Modelo[versao] ={
-          'Preco':(carros[marca][modelo][versao]['Preco']+preco)/2,
-          'Categoria':carros[marca][modelo][versao]['Categoria'],
-          'Espaco Interno':(carros[marca][modelo][versao]['Espaco Interno']+espaco_interno)/2,
-          'Consumo':(carros[marca][modelo][versao]['Consumo']+consumo)/2,
-          'Desempenho':(carros[marca][modelo][versao]['Desempenho']+desempenho)/2,
-          'Conforto':(carros[marca][modelo][versao]['Conforto']+conforto)/2,
-          'Seguranca':(carros[marca][modelo][versao]['Seguranca']+seguranca)/2,
-          'Custo X Beneficio':(carros[marca][modelo][versao]['Custo X Beneficio']+custo_beneficio)/2,
-          'Desvalorizacao':(carros[marca][modelo][versao]['Desvalorizacao']+consumo)/2,
-          'Comentario':'{0};{1}'.format(carros[marca][modelo][versao]['Comentario'],comentario)
-          }
+            'Preco':(carros[marca][modelo][versao]['Preco']+preco)/2,
+            'Categoria':carros[marca][modelo][versao]['Categoria'],
+            'Espaco Interno':(carros[marca][modelo][versao]['Espaco Interno']+espaco_interno)/2,
+            'Consumo':(carros[marca][modelo][versao]['Consumo']+consumo)/2,
+            'Desempenho':(carros[marca][modelo][versao]['Desempenho']+desempenho)/2,
+            'Conforto':(carros[marca][modelo][versao]['Conforto']+conforto)/2,
+            'Seguranca':(carros[marca][modelo][versao]['Seguranca']+seguranca)/2,
+            'Custo X Beneficio':(carros[marca][modelo][versao]['Custo X Beneficio']+custo_beneficio)/2,
+            'Desvalorizacao':(carros[marca][modelo][versao]['Desvalorizacao']+consumo)/2,
+            'Manutencao':(carros[marca][modelo][versao]['Manutencao']+consumo)/2,
+            'Comentario':'{0};{1}'.format(carros[marca][modelo][versao]['Comentario'],comentario),
+            'Imagem': carros[marca][modelo][versao]['Imagem'],
+            'Opinioes':carros[marca][modelo][versao]['Opinioes'] + 1
+            }
 
     Marca = carros[marca]
     Marca[modelo] = Modelo
     firebase.put('/Carros',marca, Marca)
 
 
+def filtro(carros,Categoria,Precomin,Precomax):
+    lista = copy.deepcopy(carros)
+    print(lista)
+    for marca in carros.keys():
+        for modelo in carros[marca].keys():
+            for versao in carros[marca][modelo].keys():
+                if carros[marca][modelo][versao]['Preco'] <= Precomax and carros[marca][modelo][versao]['Preco'] >= Precomin:
+                    if Categoria != "0":
+                        if Categoria != lista[marca][modelo][versao]['Categoria']:
+                            del lista[marca][modelo][versao]
+                            
+
+                                
+                else:
+                    del lista[marca][modelo][versao]
+    return lista
+                
+                
 
 # =============================================================================
 
@@ -170,29 +196,12 @@ def ache_seu_carro():
         Seguranca = int(request.form['seguranca'])
         Custo_beneficio = int(request.form['custo_beneficio'])
         Desvalorizacao = int(request.form['desvalorizacao'])
-        
+        Manutencao = int(request.form['manutencao'])
         # Filtra por preco e categoria
         
-        lista_carros = {}
-        for marca in carros:
-            for modelo in carros[marca]:
-                for versao in carros[marca][modelo]:
-                    if carros[marca][modelo][versao]['Preco'] <= Precomax and carros[marca][modelo][versao]['Preco'] >= Precomin:
-                        if Categoria != "0":
-                            if Categoria == carros[marca][modelo][versao]['Categoria']:
-                                Modelo = {}
-                                Modelo[versao] = carros[marca][modelo][versao]
-                                Marca = {}
-                                Marca[modelo] = Modelo
-                                lista_carros[marca] = Marca
-                        else:
-                            Modelo = {}
-                            Modelo[versao] = carros[marca][modelo][versao]
-                            Marca = {}
-                            Marca[modelo] = Modelo
-                            lista_carros[marca] = Marca
-                            
-        ranking, pontos = retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao)
+        lista_carros = filtro(carros,Categoria,Precomin,Precomax)
+
+        ranking, pontos = retornarank(lista_carros,Espaco_interno,Consumo,Desempenho,Conforto,Seguranca,Custo_beneficio,Desvalorizacao,Manutencao)
         
         mensagem_erro = ''
         resul = ''
@@ -200,15 +209,47 @@ def ache_seu_carro():
         if len(ranking) == 0:
             mensagem_erro = 'Nenhum carro dessa categoria nessa faixa de preço'
             return render_template('nenhum_carro.html', mensagem_erro=mensagem_erro)
-                
+              
         elif len(ranking) > 0:
             resul = ranking[0]
-            resulS = resul.split()
-        return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul, ranking=ranking,resulS=resulS)
+            resulS = resul.split(' ',2)
+            comentarios=copy.copy(carros[resulS[0]][resulS[1]][resulS[2]]['Comentario'])
+            comentarios=comentarios.split(";")
+            imagem = (carros[resulS[0]][resulS[1]][resulS[2]]['Imagem'] != "bota ae")
+            Imagem=''
+            if imagem:
+                Imagem = carros[resulS[0]][resulS[1]][resulS[2]]['Imagem']
+            print(Imagem)
+            return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
         
-    return render_template('ache_seu_carro.html', carros=carros, PRECO=PRECO)
+    return render_template('ache_seu_carro.html', carros=carros)
 
-
+@app.route("/carros/ache_seu_carro_prox", methods=['POST','GET'])
+def prox_carro():
+        
+    rank = request.form['ranking']
+    
+    ranking = literal_eval(rank)
+    
+    
+    print(ranking)
+    
+    
+    if len(ranking) == 0:
+        mensagem_erro = 'Nenhum carro dessa categoria nessa faixa de preço'
+        return render_template('nenhum_carro.html', mensagem_erro=mensagem_erro)
+    
+    elif len(ranking) > 0:
+        resul = ranking[0]
+        resulS = resul.split(' ',2)
+        comentarios=copy.copy(carros[resulS[0]][resulS[1]][resulS[2]]['Comentario'])
+        comentarios=comentarios.split(";")
+        imagem = (carros[resulS[0]][resulS[1]][resulS[2]]['Imagem'] != "bota ae")
+        Imagem=''
+        if imagem:
+            Imagem = carros[resulS[0]][resulS[1]][resulS[2]]['Imagem']
+        return render_template('ache_seu_carrodpc.html', carros=carros, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
+    
 
 # ADICIONA NOVA OPINIÃO
 
@@ -218,7 +259,7 @@ def nova_opiniao_marca():
 
     if request.method == 'POST':
         marca = request.form['marca']
-        if marca!='0':            
+        if marca!='0': 
             return render_template('nova_opiniao_modelo.html',carros=carros,marca=marca)
         else:
             mensagem_erro = 'Nos diga a marca do seu carro'
@@ -275,7 +316,9 @@ def opinioes():
         seguranca = int(request.form['seguranca'])
         custo_beneficio = int(request.form['custo_beneficio'])
         desvalorizacao = int(request.form['desvalorizacao'])
+        manutencao = int(request.form['manutencao'])
         comentario = request.form['comentario']
+        
         
         marca = carro[0]
         print('Marmelada')
@@ -289,7 +332,7 @@ def opinioes():
             mensagem_erro = 'Preencha todos os campos'
         
         else:
-            novaopiniao(marca,modelo,versao,float(preco),espaco_interno,consumo,desempenho,conforto,seguranca,custo_beneficio,desvalorizacao,comentario)
+            novaopiniao(marca,modelo,versao,float(preco),espaco_interno,consumo,desempenho,conforto,seguranca,custo_beneficio,desvalorizacao,manutencao,comentario)
             return render_template('agradece.html')
                         
                         
@@ -305,9 +348,9 @@ def opinioes():
 def novo_carro():
     mensagem_erro = ''
     if request.method == 'POST':    
-        marca = request.form['marca']
-        modelo = request.form['modelo']
-        versao = request.form['versao']
+        marca = request.form['marca'].replace(" ","-").upper()
+        modelo = request.form['modelo'].replace(" ","-").upper()
+        versao = request.form['versao'].upper()
         preco = request.form['preco']
         categoria = request.form['categoria']
         espaco_interno = int(request.form['espaco_interno'])
@@ -317,10 +360,15 @@ def novo_carro():
         seguranca = int(request.form['seguranca'])
         custo_beneficio = int(request.form['custo_beneficio'])
         desvalorizacao = int(request.form['desvalorizacao'])
+        manutencao = int(request.form['manutencao'])
         comentario = request.form['comentario']        
         
-        if marca==''or modelo==''or versao==''or preco==''or categoria=='None' or espaco_interno==0 or consumo==0 or desempenho==0 or conforto==0 or seguranca==0 or custo_beneficio==0 or desvalorizacao==0:
+        
+        if marca==''or modelo==''or preco==''or categoria=='None' or espaco_interno=='' or consumo==0 or manutencao==0 or desempenho==0 or conforto==0 or seguranca==0 or custo_beneficio==0 or desvalorizacao==0:
             mensagem_erro='Preencha todos os campos'
+        
+        if versao=='':
+            versao = '(Versão única)'
         
         elif marca in carros:
             if modelo in carros[marca]:
@@ -328,17 +376,17 @@ def novo_carro():
                     mensagem_erro = 'Esse carro já está no nosso dicionário'
                 
                 else:
-                    addcarro(marca, modelo, versao, float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
+                    addcarro(marca, modelo, versao.replace('.',','), float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao,manutencao, comentario)
         
                     return render_template('agradece.html')
             
             else:
-                addcarro(marca, modelo, versao, float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
+                addcarro(marca, modelo, versao.replace('.',','), float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao,manutencao, comentario)
         
                 return render_template('agradece.html')
                 
         else:
-            addcarro(marca, modelo, versao, float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao, comentario)
+            addcarro(marca, modelo, versao.replace('.',','), float(preco), categoria, espaco_interno, consumo, desempenho, conforto, seguranca, custo_beneficio, desvalorizacao,manutencao, comentario)
         
             return render_template('agradece.html')
     
@@ -363,15 +411,31 @@ def comunicar():
     return render_template('comunicar.html')
 
 
+@app.route("/termos",methods=(['POST','GET']))
+def priv():
+    return render_template('privacidade.html')
 
 # AGRADECE
 
 @app.route("/carros/agradecimento", methods=(['POST','GET']))
 def agradece():
     return render_template('agradece.html')
+
+
+
+
+# =============================================================================================
+
+
+
+# PÁGINA CELULARES
+
+@app.route("/viagens", methods=['POST','GET'])    
+def pag_viagens():        
+    return render_template('viagens.html')
     
 # RODA O PROGRAMA
-app.run('0.0.0.0', 5000, True)
+app.run('0.0.0.0', 5002, True)
 
 # =============================================================================
 
