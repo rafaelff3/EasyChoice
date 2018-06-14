@@ -47,11 +47,11 @@
 <div class="page-header">
 
 <p>
-
+<h1>
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
  class="img-responsive" style="width:30%" alt="Responsive Image">
-</a>
+</a></h1>
 
 </p>
 </div>
@@ -62,50 +62,19 @@
 
 <main>
     <div class="container jumbotron text-center">
-        
-        <h2>Seu celular ideal é o</h2>
-        <h1>{{resul}}</h1>
+        <p>
+        <h2> Sobre o EasyChoice</h2>
+        <h3>Muitas vezes no nosso dia-a-dia ficamos indecisos quando temos que escolher entre algum produto ou serviço e acabamos fazendo a escolha errada. A proposta do site Easy-Choice é ajudar consumidores a escolherem o melhor produto ou serviço com base nas necessidades dele. 
+O site funciona com base na avaliação dos próprios usuários a respeito de certo produto, formando assim uma média de avaliações e comentários sobre diversas características do produto e os colocando em um ranking. 
+O usuário do aplicativo terá que simplesmente responder qual é a sua prioridade para cada característica do produto e o preço que está disposto a pagar.
+Nesta fase inicial do site, estão disponíveis apenas três categorias de produtos, sendo elas Carros, 
+Celulares e Viagens. O site tem potencial para incluir muitas outras categorias como Tv, música, gastronomia e outros.
+ </h3>
+        </p>
+        <p>
+          <a href="/" class="btn btn-primary btn-lg" role="button"> Página principal </a>
+        </p>
     </div>
-    <div class="container jumbotron text-center">
-    {%if not imagem%}
-        <img src="https://images.canaldapeca.com.br/produtos/g/indisponivel.png" style="width:35%" alt="Responsive Image"></img>
-    {%endif%}
-    {%if imagem%}
-        <img src="{{Imagem}}" style="width:35%" class="rounded" alt="Responsive Image"></img>
-    {%endif%}
-        <a href="https://www.google.com.br/search?biw=1393&bih=618&tbm=isch&sa=1&ei=TJoUW4OvFoGgwgSn9abQAw&q={{resul}}&oq={{resul}}&gs_l=img.3..35i39k1l2j0l2j0i67k1j0l3j0i67k1l2.5056.6107.0.6588.4.4.0.0.0.0.152.385.1j2.3.0....0...1c.1.64.img..1.3.385....0.y2hEqKpONJs" target="_blank" class="btn btn-primary btn-md" role="button"> Pesquise seu carro no Google! </a>
-    </div>
-    <div class="container jumbotron text-center">
-        <h2> AVALIÇÃO DOS USUÁRIOS </h2>
-        &nbsp;&nbsp;
-
-        <h2>Preço médio: R${{celulares[resulS[0]][resulS[1]]['Preco']}}0</h2>
-        <h2>Desempenho: {{celulares[resulS[0]][resulS[1]]['Desempenho']}}/5</h2>
-        <h2>Acabamento: {{celulares[resulS[0]][resulS[1]]['Acabamento']}}/5</h2>
-        <h2>Tempo de carregamento: {{celulares[resulS[0]][resulS[1]]['Tempo de carregamento']}}/5</h2>   
-        <h2>Custo X Benefício: {{celulares[resulS[0]][resulS[1]]['Custo X Beneficio']}}/5</h2>
-        <h2>Câmera frontal: {{celulares[resulS[0]][resulS[1]]['Camera frontal']}}/5</h2>   
-        <h2>Câmera traseira: {{celulares[resulS[0]][resulS[1]]['Camera traseira']}}/5</h2>   
-        <h2>Duração da bateria: {{celulares[resulS[0]][resulS[1]]['Duracao da bateria']}}/5</h2>  
-        <h2>Número de reviews: {{celulares[resulS[0]][resulS[1]]['Opinioes']}}</h2>
-
-    </div>
-        </div>
-    <div class="container jumbotron text-center">
-        <h2>COMENTÁRIOS</h2>
-        &nbsp;&nbsp;
-        {%for i in comentarios%}
-            <h2>"{{i}}"</h2>
-        {%endfor%}
-    </div>
-    <div class="container jumbotron text-center">
-        <form action="/celulares/ache_seu_celular_prox" method="POST"> 
-            <input type="hidden" name="ranking" value="{{ranking}}">
-            <input class="btn btn-lg btn-primary" type="submit" value="NÃO GOSTOU DESSE? CLIQUE AQUI PARA VER PRÓXIMO CELULAR DO SEU RANKING"> 
-            
-        </form>
-    </div>
-    
 </main>
 
 

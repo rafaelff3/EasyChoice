@@ -556,7 +556,9 @@ def priv():
 def agradece():
     return render_template('agradece.html')
 
-
+@app.route("/sobre", methods=(['POST','GET']))
+def sobre():
+    return render_template('sobre.html')
 
 
 # =============================================================================================
