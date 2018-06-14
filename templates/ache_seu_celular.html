@@ -86,66 +86,29 @@
 <a href="/">
 <img src="/static/image/EasyChoiceLogo.png" 
  style="width:30%" alt="Responsive Image">
- </a><div class="text-right"> VEÍCULOS </div></h1>
+ </a><div class="text-right"> CELULARES </div></h1>
 </p>
 </div>
 </div>
 
 </header>
         <div class="container jumbotron text-center">
-            <h1>Ache seu carro</h1>
+            <h1>Ache seu celular</h1>
         </div>
         <div class="container jumbotron text-center">
-            <form action="/carros/ache_seu_carro" method="POST">
+            <form action="/celulares/ache_seu_celular" method="POST">
 
                 <h1> Filtros <h1/>
                 
                 <h3> Preço entre: <h3/>
                 
                 R$
-                <input type="text" label="asas" class="btn" name="precomin" value="0" placeholder="Preço máximo">
+                <input type="text" label="asas" class="btn" name="precomin" value="0" placeholder="Preço máximo">,00
                 e   R$
-                <input type="text" label="asas" class="btn" name="precomax" value="10000000" placeholder="Preço máximo">
-                
+                <input type="text" label="asas" class="btn" name="precomax" value="10000" placeholder="Preço máximo">,00
+            </div>  
 
                 
-            <hr>
-                <h3> Categoria: <h3/>
-                
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-primary active">
-                    <input type="radio" name="categoria" value="0" checked> Tanto Faz
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="suv">SUV
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="hatchback">Hatchback
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="perua">Perua
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="picape">Picape
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="cupe">Cupê
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="conversivel">Conversível
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="sedan">Sedan
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="minivan">Minivan
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="categoria" value="esportivo">Esportivo
-                  </label>
-
-                </div><br>
-            </div>
             <div class="container jumbotron text-center">
                 <h1> Prioridades <h1/>
                 <h4>Não me importo <img src="https://image.flaticon.com/icons/svg/50/50849.svg" 
@@ -154,15 +117,15 @@
                 <p>
                 
                 <div class="slidecontainer">
-                  <h3>Espaço interno</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="2" name="espaco_interno">
+                  <h3>Acabamento</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="2" name="acabamento">
                 </div>
                 <hr>
                 <div class="slidecontainer">
-                  <h3>Manutenção barata</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="manutencao">
+                  <h3>Duração da bateria</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="duracao_bateria">
                 </div>
                 <hr>
                 <div class="slidecontainer">
-                  <h3>Consumo</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="consumo">
+                  <h3>Tempo de carregamento</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="t_carregamento">
                 </div>
                 <hr>
                 <div class="slidecontainer">
@@ -170,20 +133,17 @@
                 </div>
                 <hr>
                 <div class="slidecontainer">
-                  <h3>Conforto</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="conforto">
+                  <h3>Câmera frontal</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="camera_front">
                 </div>
                 <hr>
                 <div class="slidecontainer">
-                  <h3>Segurança</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="seguranca">
+                  <h3>Câmera traseira</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="camera_tras">
                 </div>
                 <hr>
                 <div class="slidecontainer">
                   <h3>Custo X benefício</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="custo_beneficio">
                 </div>
-                <hr>
-                <div class="slidecontainer">
-                  <h3>Baixa desvalorização</h3> <input type="range" min="1" max="100" value="10" class="slider text-center" id="3" name="desvalorizacao">
-                </div>
+
                 </p>
             </div>
             <div class="container jumbotron text-center">    

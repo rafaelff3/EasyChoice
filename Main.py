@@ -162,7 +162,17 @@ def filtro(carros,Categoria,Precomin,Precomax):
                 else:
                     del lista[marca][modelo][versao]
     return lista
-                
+
+def filtro_cel(celulares,Precomin,Precomax):
+    lista = copy.deepcopy(celulares)
+    print(lista)
+    for marca in celulares.keys():
+        for modelo in celulares[marca].keys():
+            if celulares[marca][modelo]['Preco'] > Precomax and celulares[marca][modelo]['Preco'] < Precomin:
+                del lista[marca][modelo]
+    return lista
+
+
 def novaopiniao_cel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario):
     Marca = celulares[marca]
 
@@ -221,6 +231,45 @@ def addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento
         celulares[marca] = Marca 
     
     firebase.put('/Celulares',marca, celulares[marca])
+    
+def retornarank_cel(lista_celulares,duracao_bateria,desempenho,acabamento,camera_front,camera_tras,custo_beneficio,t_carregamento):
+    ranking = {}
+    for marca in lista_celulares:
+        for modelo in lista_celulares[marca]:
+
+            pontos = 0
+            
+            pontos += int(celulares[marca][modelo]['Duracao da bateria']) * duracao_bateria
+            pontos += int(celulares[marca][modelo]['Desempenho']) * desempenho
+            pontos += int(celulares[marca][modelo]['Acabamento']) * acabamento
+            pontos += int(celulares[marca][modelo]['Camera frontal']) * camera_front
+            pontos += int(celulares[marca][modelo]['Camera traseira']) * camera_tras
+            pontos += int(celulares[marca][modelo]['Tempo de carregamento']) * t_carregamento
+            pontos += int(celulares[marca][modelo]['Custo X Beneficio']) * custo_beneficio
+            
+            
+            ranking['{0} {1}'.format(marca,modelo)] = pontos
+            print(pontos)
+    print(ranking)
+    
+    celular = []
+    ponto = []
+
+    for key, value in ranking.items():
+        celular.append(key)
+        ponto.append(value)
+
+    ranking_final_celular = []
+    ranking_final_ponto = []
+    
+    while len(celular) > 0:
+        ranking_final_celular.append(celular[ponto.index(max(ponto))])
+        ranking_final_ponto.append(ponto[ponto.index(max(ponto))])
+        del celular[ponto.index(max(ponto))]
+        del ponto[ponto.index(max(ponto))]
+    
+
+    return ranking_final_celular, ranking_final_ponto
 
 # =============================================================================
 
@@ -536,7 +585,7 @@ def nova_opiniao_celulares_marca():
         if marca!='0': 
             return render_template('nova_opiniao_celulares_modelo.html',celulares=celulares,marca=marca)
         else:
-            mensagem_erro = 'Nos diga a marca do seu carro'
+            mensagem_erro = 'Nos diga a marca do seu celular'
     return render_template('nova_opiniao_celulares_marca.html', celulares=celulares, mensagem_erro=mensagem_erro)
 
 @app.route("/celulares/nova_opiniao/marca/modelo", methods=['POST','GET'])
@@ -550,7 +599,7 @@ def nova_opiniao_celulares_modelo():
             celular = str([marca,modelo])
             return render_template('nova_opiniao_celulares_opinioes.html',celular=celular,celulares=celulares,marca=marca,modelo=modelo)
         else:
-            mensagem_erro = 'Nos diga o modelo do seu carro'
+            mensagem_erro = 'Nos diga o modelo do seu celular'
     return render_template('nova_opiniao_celulares_modelo.html', celulares=celulares, mensagem_erro=mensagem_erro)
 
 @app.route("/celulares/nova_opiniao/opinioes", methods=['POST','GET'])
@@ -560,7 +609,7 @@ def opinioes_cel():
     celular = literal_eval(cel)
     if request.method == 'POST':
 
-        preco = float(request.form['preco'])
+        preco = request.form['preco']
         duracao_bateria = int(request.form['duracao_bateria'])
         desempenho = int(request.form['desempenho'])
         acabamento = int(request.form['acabamento'])
@@ -581,21 +630,21 @@ def opinioes_cel():
             mensagem_erro = 'Preencha todos os campos'
         
         else:
-            novaopiniao_cel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+            novaopiniao_cel(marca,modelo,float(preco),acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
             return render_template('agradece.html')
                         
                         
 
-    return render_template('nova_opiniao.html', carros=carros, mensagem_erro=mensagem_erro)
+    return render_template('nova_opiniao.html', celulares=celulares, mensagem_erro=mensagem_erro)
 
-@app.route("/celulares/add_cel", methods=['GET', 'POST'])
+@app.route("/celulares/add_celular", methods=['GET', 'POST'])
 def novo_cel():
     mensagem_erro = ''
     if request.method == 'POST':    
         marca = request.form['marca'].replace(" ","-").upper()
-        modelo = request.form['modelo'].replace(" ","-").upper()
+        modelo = request.form['modelo'].upper()
         preco = request.form['preco']
-        camera_front = request.form['camera_front']
+        camera_front = int(request.form['camera_front'])
         camera_tras = int(request.form['camera_tras'])
         duracao_bateria = int(request.form['duracao_bateria'])
         desempenho = int(request.form['desempenho'])
@@ -607,19 +656,112 @@ def novo_cel():
         
         if marca in celulares:
             if modelo in celulares[marca]:
-                mensagem_erro = 'Esse carro já está no nosso dicionário'
+                mensagem_erro = 'Esse celular já está no nosso dicionário'
             
             else:
-                addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+                addcel(marca,modelo,float(preco),acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
         
                 return render_template('agradece.html')
                 
         else:
-            addcel(marca,modelo,preco,acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
+            addcel(marca,modelo,float(preco),acabamento,camera_front,camera_tras,t_carregamento,duracao_bateria,desempenho,custo_beneficio,comentario)
         
             return render_template('agradece.html')
     
-    return render_template('novo_carro.html', celulares=celulares, mensagem_erro=mensagem_erro)
+    return render_template('novo_celular.html', celulares=celulares, mensagem_erro=mensagem_erro)
+
+@app.route("/celulares/ache_seu_celular", methods=['POST','GET'])
+def ache_seu_celular():
+    if request.method == 'POST':
+        precomin = int(request.form['precomin'])
+        precomax = int(request.form['precomax'])
+        duracao_bateria = int(request.form['duracao_bateria'])
+        desempenho = int(request.form['desempenho'])
+        acabamento = int(request.form['acabamento'])
+        camera_front = int(request.form['camera_front'])
+        camera_tras = int(request.form['camera_tras'])
+        t_carregamento = int(request.form['t_carregamento'])
+        custo_beneficio = int(request.form['custo_beneficio'])
+        # Filtra por preco e categoria
+        
+        lista_celulares = filtro_cel(celulares,precomin,precomax)
+
+        ranking, pontos = retornarank_cel(lista_celulares,duracao_bateria,desempenho,acabamento,camera_front,camera_tras,custo_beneficio,t_carregamento)
+        
+        mensagem_erro = ''
+        resul = ''
+        
+        if len(ranking) == 0:
+            mensagem_erro = 'Nenhum celular nessa faixa de preço'
+            return render_template('nenhum_celular.html', mensagem_erro=mensagem_erro)
+              
+        elif len(ranking) > 0:
+            resul = ranking[0]
+            resulS = resul.split(' ',1)
+            comentarios=copy.copy(celulares[resulS[0]][resulS[1]]['Comentario'])
+            comentarios=comentarios.split(";")
+            imagem = (celulares[resulS[0]][resulS[1]]['Imagem'] != "bota ae")
+            Imagem=''
+            if imagem:
+                Imagem = celulares[resulS[0]][resulS[1]]['Imagem']
+            return render_template('ache_seu_celulardpc.html', celulares=celulares, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
+        
+    return render_template('ache_seu_celular.html', celulares=celulares)
+
+@app.route("/celulares/ache_seu_celular_prox", methods=['POST','GET'])
+def prox_cel():
+    rank = request.form['ranking']
+    
+    ranking = literal_eval(rank)
+    
+    mensagem_erro = ''
+    resul = ''
+    del ranking[0]
+    
+    
+    if len(ranking) == 0:
+        mensagem_erro = 'Nenhum celular nessa faixa de preço'
+        return render_template('nenhum_celular.html', mensagem_erro=mensagem_erro)
+    
+    elif len(ranking) > 0:
+        resul = ranking[0]
+        resulS = resul.split(' ',1)
+        comentarios=copy.copy(celulares[resulS[0]][resulS[1]]['Comentario'])
+        comentarios=comentarios.split(";")
+        imagem = (celulares[resulS[0]][resulS[1]]['Imagem'] != "bota ae")
+        Imagem=''
+        if imagem:
+            Imagem = celulares[resulS[0]][resulS[1]]['Imagem']
+        return render_template('ache_seu_celulardpc.html', celulares=celulares, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
+    
+@app.route("/celulares/ache_seu_celular_alea", methods=['POST','GET'])
+def alea_cel():
+    
+    ranking, pontos = retornarank_cel(celulares,randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100),randint(1,100))
+    
+    mensagem_erro = ''
+    resul = ''
+    
+    print('ranking aleatorio cel:')
+    print(ranking)
+    print(pontos)
+    
+    
+    if len(ranking) == 0:
+        mensagem_erro = 'Nenhum celular nessa faixa de preço'
+        return render_template('nenhum_celular.html', mensagem_erro=mensagem_erro)
+    
+    elif len(ranking) > 0:
+        resul = ranking[0]
+        resulS = resul.split(' ',1)
+        comentarios=copy.copy(celulares[resulS[0]][resulS[1]]['Comentario'])
+        comentarios=comentarios.split(";")
+        imagem = (celulares[resulS[0]][resulS[1]]['Imagem'] != "bota ae")
+        Imagem=''
+        if imagem:
+            Imagem = celulares[resulS[0]][resulS[1]][resulS[2]]['Imagem']
+        return render_template('ache_seu_celulardpc.html', celulares=celulares, resul=resul.replace(',','.'), ranking=ranking,resulS=resulS,comentarios=comentarios,imagem=imagem,Imagem=Imagem)
+
 
 
 # RODA O PROGRAMA
